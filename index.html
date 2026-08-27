@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayan Sikdar — Quality Engineer</title>
+<meta name="description" content="Ayan Sikdar, Senior Quality Engineer. I notice what's broken before your users do.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#132038;
+    --bg-alt:#1B2C4C;
+    --paper:#F1E6CE;
+    --ink:#F1E6CE;
+    --ink-dim:#A9B3C9;
+    --rule:#2C3E63;
+    --flag:#E0B15E;
+    --flag-dim:#9C7B3E;
+    --verified:#7FBBA6;
+    --verified-dim:#3F6E62;
+    --display:'Poppins', sans-serif;
+    --body:'Poppins', sans-serif;
+    --mono:'Poppins', sans-serif;
+    --maxw:1080px;
+  }
+  mark.hl{
+    background:var(--flag); color:var(--bg);
+    padding:0 6px; border-radius:3px;
+    font-weight:600; box-decoration-break:clone; -webkit-box-decoration-break:clone;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; }
+  ::selection{ background:var(--verified-dim); color:var(--paper); }
+  :focus-visible{ outline:2px solid var(--flag); outline-offset:3px; }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 clamp(20px,6vw,28px); }
+  img,svg{ max-width:100%; }
+  body{ overflow-x:hidden; }
+
+  /* ---------- NAV ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(19,32,56,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);
+  }
+  nav{
+    max-width:var(--maxw); margin:0 auto; padding:18px clamp(20px,6vw,28px);
+    display:flex; align-items:center; justify-content:space-between;
+    position:relative;
+  }
+  .brand{ font-family:var(--display); font-weight:600; font-size:18px; }
+  nav ul{ list-style:none; display:flex; align-items:center; gap:26px; }
+  nav a{ text-decoration:none; font-size:14px; color:var(--ink-dim); transition:color .15s ease; }
+  nav a:hover{ color:var(--paper); }
+  nav a.nav-resume{
+    color:var(--bg); background:var(--flag); font-weight:600;
+    padding:9px 16px; border-radius:2px; transition:background .15s ease, transform .15s ease;
+  }
+  nav a.nav-resume:hover{ background:var(--paper); color:var(--bg); transform:translateY(-1px); }
+
+  .nav-toggle{
+    display:none; width:36px; height:36px;
+    border:1px solid var(--rule); background:transparent; border-radius:2px;
+    align-items:center; justify-content:center; cursor:pointer;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+    display:block; width:16px; height:2px; background:var(--paper); position:relative;
+    transition:transform .2s ease, opacity .2s ease;
+  }
+  .nav-toggle span::before, .nav-toggle span::after{ content:""; position:absolute; left:0; }
+  .nav-toggle span::before{ top:-5px; } .nav-toggle span::after{ top:5px; }
+  .nav-toggle[aria-expanded="true"] span{ background:transparent; }
+  .nav-toggle[aria-expanded="true"] span::before{ transform:translateY(5px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span::after{ transform:translateY(-5px) rotate(-45deg); }
+
+  @media (max-width:680px){
+    .nav-toggle{ display:flex; }
+    nav ul{
+      display:none; position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; background:var(--bg); border-bottom:1px solid var(--rule);
+      padding:6px clamp(20px,6vw,28px) 14px;
+    }
+    nav ul.open{ display:flex; }
+    nav ul li{ border-top:1px solid var(--rule); }
+    nav ul a{ display:block; padding:14px 4px; font-size:15px; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:80px 0 90px;
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:56px;
+    align-items:center;
+  }
+  @media (max-width:880px){ .hero{ grid-template-columns:1fr; padding:56px 0 60px; gap:44px; } }
+
+  .kicker{
+    font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--flag); margin-bottom:18px; display:block;
+  }
+  h1.headline{
+    font-family:var(--display); font-weight:600; font-size:clamp(34px,5vw,54px);
+    line-height:1.08; letter-spacing:-0.01em;
+  }
+  h1.headline em{ font-style:italic; font-weight:500; color:var(--verified); }
+  .sub{
+    margin-top:22px; max-width:52ch; color:var(--ink-dim); font-size:17px;
+  }
+  .cta-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 20px;
+    font-size:14.5px; font-weight:500; text-decoration:none; border-radius:2px;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn-primary{ background:var(--paper); color:var(--bg); }
+  .btn-primary:hover{ background:var(--verified); color:var(--bg); transform:translateY(-1px); }
+  .btn-ghost{ border:1px solid var(--rule); color:var(--paper); }
+  .btn-ghost:hover{ border-color:var(--flag); color:var(--flag); transform:translateY(-1px); }
+
+  /* ---------- BUG DEMO CARD (signature) ---------- */
+  .ticket{
+    background:var(--paper); color:#132038; border-radius:4px;
+    padding:22px 22px 20px;
+    box-shadow:0 24px 48px -20px rgba(0,0,0,0.55);
+    font-family:var(--body);
+  }
+  .ticket-head{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:var(--mono); font-size:11px; color:#5E6E8C;
+    padding-bottom:12px; border-bottom:1px solid #DCCFA8; margin-bottom:16px;
+  }
+  .ticket-status{
+    font-family:var(--mono); font-weight:600; font-size:11px; letter-spacing:.05em;
+    padding:3px 9px; border-radius:2px;
+    background:#F4E4C7; color:var(--flag-dim);
+    transition:background .3s ease, color .3s ease;
+  }
+  .ticket-status.fixed{ background:#DCEEE4; color:var(--verified-dim); }
+
+  .broken-ui{ position:relative; padding:6px 0 4px; }
+  .broken-title{
+    font-family:var(--display); font-weight:600; font-size:20px; color:#132038;
+    transform:rotate(-1.5deg) translateX(6px);
+    transition:transform .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  .broken-btn{
+    display:inline-block; margin-top:14px; padding:8px 14px; font-size:13px;
+    font-weight:600; border-radius:2px; border:2px dashed #C9432E;
+    color:#C9432E; background:#FBEAE6;
+    transform:translateY(4px);
+    transition:transform .5s cubic-bezier(.34,1.56,.64,1), background .4s ease, border .4s ease, color .4s ease;
+  }
+  .broken-caption{
+    margin-top:10px; font-size:12.5px; color:#5E6E8C; font-style:italic;
+  }
+  .fixed .broken-title{ transform:none; }
+  .fixed .broken-btn{
+    transform:none; border:2px solid var(--verified-dim); background:#DCEEE4; color:var(--verified-dim);
+  }
+
+  .repro-btn{
+    margin-top:18px; width:100%; padding:11px; font-family:var(--mono); font-size:12.5px;
+    font-weight:500; letter-spacing:.02em; border-radius:2px; border:1px solid #C9BB8E;
+    background:transparent; color:#3C4D6E; cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .repro-btn:hover{ background:#132038; color:var(--paper); }
+  .repro-btn:disabled{ opacity:.5; cursor:default; }
+  .repro-btn:disabled:hover{ background:transparent; color:#3C4D6E; }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{ padding:0; }
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* pull quote */
+  .pull{
+    padding:70px 0;
+    border-top:1px solid var(--rule);
+  }
+  .pull p{
+    font-family:var(--display); font-style:italic; font-weight:500;
+    font-size:clamp(22px,3.4vw,34px); line-height:1.4; max-width:26ch; color:var(--paper);
+  }
+  .pull .tag{ display:block; margin-top:22px; font-family:var(--mono); font-size:12px; color:var(--flag); }
+
+  /* about / footnotes */
+  .footnotes{ padding:60px 0 56px; border-top:1px solid var(--rule); }
+  .about-lede{
+    font-size:17px; color:var(--ink-dim); max-width:58ch; margin-top:14px; margin-bottom:36px;
+  }
+  .footnote-grid{
+    display:flex; flex-wrap:wrap; gap:32px 38px; font-size:13.5px; color:var(--ink-dim);
+  }
+  .footnote-grid strong{ color:var(--paper); font-weight:600; display:block; margin-bottom:3px; font-size:14px; }
+  .footnote-grid a{ text-decoration:none; border-bottom:1px solid var(--rule); }
+  .footnote-grid a:hover{ color:var(--flag); border-color:var(--flag); }
+
+  /* footer */
+  footer{ padding:32px 0 48px; }
+  .fine-print{ font-size:12px; color:var(--ink-dim); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <nav>
+    <span class="brand">Ayan Sikdar</span>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navList" aria-label="Toggle menu"><span></span></button>
+    <ul id="navList">
+      <li><a href="#about">About</a></li>
+      <li><a class="nav-resume" href="Ayan_Sikdar_Resume.pdf" download>Download résumé</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div>
+      <span class="kicker">Senior Quality Engineer · <mark class="hl">4+ yrs</mark></span>
+      <h1 class="headline">I notice what's <mark class="hl">broken</mark> before your users do.</h1>
+      <p class="sub">That's the job, on a good day: reading a build like a suspect statement, finding the line that doesn't add up, and not signing off until it does. Try the ticket on the right — it's a small one.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="Ayan_Sikdar_Resume.pdf" download>↓ Download résumé</a>
+        <a class="btn btn-ghost" href="mailto:sikdarayan27@gmail.com">Email me</a>
+      </div>
+    </div>
+
+    <div class="ticket" id="ticket">
+      <div class="ticket-head">
+        <span>BUG-1147 · visual regression</span>
+        <span class="ticket-status" id="ticketStatus">OPEN</span>
+      </div>
+      <div class="broken-ui" id="brokenUi">
+        <div class="broken-title">Welcome back, Ayan</div>
+        <span class="broken-btn">Continue →</span>
+        <p class="broken-caption">Heading is rotated, button is unaligned. Filed by QA (me).</p>
+      </div>
+      <button class="repro-btn" id="reproBtn">▶ run fix and verify</button>
+    </div>
+  </section>
+
+  <section class="pull wrap reveal">
+    <p>"Most bugs aren't found by clicking harder. They're found by asking what the build is quietly assuming about the user."</p>
+    <span class="tag">// how I approach a new feature</span>
+  </section>
+
+  <section id="about" class="footnotes wrap reveal">
+    <span class="kicker">About</span>
+    <p class="about-lede">4+ years testing web applications end to end — functional, regression, and API testing, with the repeatable parts automated in Robot Framework and Python. Full case history and toolkit are in the résumé above.</p>
+    <div class="footnote-grid">
+      <div><strong>Education</strong>BCA, Adamas University — 2021, CGPA 8.05</div>
+      <div><strong>Certification</strong>Python, Udemy</div>
+      <div><strong>Languages</strong>Bengali (native), English (proficient), Hindi (conversational)</div>
+      <div><strong>Based in</strong>Gayeshpur, West Bengal, India</div>
+      <div><strong>Reach me</strong><a href="mailto:sikdarayan27@gmail.com">sikdarayan27@gmail.com</a></div>
+    </div>
+  </section>
+
+  <footer class="wrap reveal">
+    <div class="fine-print">
+      <span>© 2026 Ayan Sikdar</span>
+      <span>Last verified Aug 2026</span>
+    </div>
+  </footer>
+</main>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navList = document.getElementById('navList');
+  navToggle.addEventListener('click', () => {
+    const open = navList.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navList.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  const reproBtn = document.getElementById('reproBtn');
+  const brokenUi = document.getElementById('brokenUi');
+  const ticketStatus = document.getElementById('ticketStatus');
+  reproBtn.addEventListener('click', () => {
+    brokenUi.classList.add('fixed');
+    ticketStatus.textContent = 'VERIFIED';
+    ticketStatus.classList.add('fixed');
+    reproBtn.textContent = '✓ fix verified';
+    reproBtn.disabled = true;
+  });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObs.observe(el));
+</script>
+
+</body>
+</html>
