@@ -1,315 +1,3039 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ayan Sikdar — Quality Engineer</title>
-<meta name="description" content="Ayan Sikdar, Senior Quality Engineer. I notice what's broken before your users do.">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ayan Sikdar — Senior Quality Engineer</title>
+<meta name="description" content="Ayan Sikdar — Senior Quality Engineer. Risk-based test strategy, Robot Framework automation, API & data validation, release sign-off." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
 <style>
-  :root{
-    --bg:#132038;
-    --bg-alt:#1B2C4C;
-    --paper:#F1E6CE;
-    --ink:#F1E6CE;
-    --ink-dim:#A9B3C9;
-    --rule:#2C3E63;
-    --flag:#E0B15E;
-    --flag-dim:#9C7B3E;
-    --verified:#7FBBA6;
-    --verified-dim:#3F6E62;
-    --display:'Poppins', sans-serif;
-    --body:'Poppins', sans-serif;
-    --mono:'Poppins', sans-serif;
-    --maxw:1080px;
-  }
-  mark.hl{
-    background:var(--flag); color:var(--bg);
-    padding:0 6px; border-radius:3px;
-    font-weight:600; box-decoration-break:clone; -webkit-box-decoration-break:clone;
-  }
-  *{ box-sizing:border-box; margin:0; padding:0; }
-  html{ scroll-behavior:smooth; }
-  @media (prefers-reduced-motion: reduce){
-    html{ scroll-behavior:auto; }
-    *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
-  }
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:var(--body);
-    line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{ color:inherit; }
-  ::selection{ background:var(--verified-dim); color:var(--paper); }
-  :focus-visible{ outline:2px solid var(--flag); outline-offset:3px; }
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#070c16;
+  --bg-2:#0d1626;
+  --card:#101b2e;
+  --card-2:#0b1424;
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --text:#e9eefb;
+  --muted:#8fa3c2;
+  --dim:#6b7f9e;
+  --accent:#4cc9f0;
+  --accent-2:#7cf5c4;
+  --pass:#3ddc97;
+  --warn:#ffc65c;
+  --fail:#ff5d7a;
+  --crit:#ff2d6f;
+  --purple:#a06bff;
+  --radius:16px;
+  --shadow:0 18px 44px rgba(0,0,0,.45);
+  --mono:'SFMono-Regular',ui-monospace,Menlo,Consolas,'Liberation Mono',monospace;
+}
 
-  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 clamp(20px,6vw,28px); }
-  img,svg{ max-width:100%; }
-  body{ overflow-x:hidden; }
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+body.no-scroll{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.hidden{display:none !important}
 
-  /* ---------- NAV ---------- */
-  header.site{
-    position:sticky; top:0; z-index:50;
-    background:rgba(19,32,56,0.9);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--rule);
-  }
-  nav{
-    max-width:var(--maxw); margin:0 auto; padding:18px clamp(20px,6vw,28px);
-    display:flex; align-items:center; justify-content:space-between;
-    position:relative;
-  }
-  .brand{ font-family:var(--display); font-weight:600; font-size:18px; }
-  nav ul{ list-style:none; display:flex; align-items:center; gap:26px; }
-  nav a{ text-decoration:none; font-size:14px; color:var(--ink-dim); transition:color .15s ease; }
-  nav a:hover{ color:var(--paper); }
-  nav a.nav-resume{
-    color:var(--bg); background:var(--flag); font-weight:600;
-    padding:9px 16px; border-radius:2px; transition:background .15s ease, transform .15s ease;
-  }
-  nav a.nav-resume:hover{ background:var(--paper); color:var(--bg); transform:translateY(-1px); }
+.wrap{width:min(1180px,100% - 2.5rem);margin-inline:auto;position:relative;z-index:2}
+@media(max-width:520px){.wrap{width:min(1180px,100% - 1.75rem)}}
 
-  .nav-toggle{
-    display:none; width:36px; height:36px;
-    border:1px solid var(--rule); background:transparent; border-radius:2px;
-    align-items:center; justify-content:center; cursor:pointer;
-  }
-  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
-    display:block; width:16px; height:2px; background:var(--paper); position:relative;
-    transition:transform .2s ease, opacity .2s ease;
-  }
-  .nav-toggle span::before, .nav-toggle span::after{ content:""; position:absolute; left:0; }
-  .nav-toggle span::before{ top:-5px; } .nav-toggle span::after{ top:5px; }
-  .nav-toggle[aria-expanded="true"] span{ background:transparent; }
-  .nav-toggle[aria-expanded="true"] span::before{ transform:translateY(5px) rotate(45deg); }
-  .nav-toggle[aria-expanded="true"] span::after{ transform:translateY(-5px) rotate(-45deg); }
+section[id]{scroll-margin-top:110px}
 
-  @media (max-width:680px){
-    .nav-toggle{ display:flex; }
-    nav ul{
-      display:none; position:absolute; top:100%; left:0; right:0;
-      flex-direction:column; background:var(--bg); border-bottom:1px solid var(--rule);
-      padding:6px clamp(20px,6vw,28px) 14px;
-    }
-    nav ul.open{ display:flex; }
-    nav ul li{ border-top:1px solid var(--rule); }
-    nav ul a{ display:block; padding:14px 4px; font-size:15px; }
-  }
+/* skip link */
+.skip-link{
+  position:absolute;left:-9999px;top:0;z-index:10000;
+  padding:.7rem 1.1rem;border-radius:0 0 12px 0;
+  background:var(--accent);color:#04121c;font-weight:700;font-size:.85rem;
+}
+.skip-link:focus{left:0}
 
-  /* ---------- HERO ---------- */
-  .hero{
-    padding:80px 0 90px;
-    display:grid;
-    grid-template-columns:1.05fr 0.95fr;
-    gap:56px;
-    align-items:center;
-  }
-  @media (max-width:880px){ .hero{ grid-template-columns:1fr; padding:56px 0 60px; gap:44px; } }
+:focus-visible{
+  outline:3px solid var(--accent);
+  outline-offset:3px;
+  border-radius:6px;
+}
 
-  .kicker{
-    font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--flag); margin-bottom:18px; display:block;
-  }
-  h1.headline{
-    font-family:var(--display); font-weight:600; font-size:clamp(34px,5vw,54px);
-    line-height:1.08; letter-spacing:-0.01em;
-  }
-  h1.headline em{ font-style:italic; font-weight:500; color:var(--verified); }
-  .sub{
-    margin-top:22px; max-width:52ch; color:var(--ink-dim); font-size:17px;
-  }
-  .cta-row{ display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
-  .btn{
-    display:inline-flex; align-items:center; gap:8px; padding:12px 20px;
-    font-size:14.5px; font-weight:500; text-decoration:none; border-radius:2px;
-    transition:transform .15s ease, background .15s ease, border-color .15s ease;
-  }
-  .btn-primary{ background:var(--paper); color:var(--bg); }
-  .btn-primary:hover{ background:var(--verified); color:var(--bg); transform:translateY(-1px); }
-  .btn-ghost{ border:1px solid var(--rule); color:var(--paper); }
-  .btn-ghost:hover{ border-color:var(--flag); color:var(--flag); transform:translateY(-1px); }
+/* ============================================================
+   BACKGROUND
+   ============================================================ */
+.bg-fx{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.26;will-change:transform}
+.orb-1{width:44vw;height:44vw;min-width:300px;min-height:300px;background:#1d6fd1;top:-14%;left:-12%;animation:drift1 28s ease-in-out infinite}
+.orb-2{width:36vw;height:36vw;min-width:240px;min-height:240px;background:#12b48a;bottom:-16%;right:-10%;animation:drift2 34s ease-in-out infinite}
+.orb-3{width:28vw;height:28vw;min-width:200px;min-height:200px;background:#6b2bd6;top:48%;left:56%;animation:drift3 40s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8vw,7vh) scale(1.15)}}
+@keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,-6vh) scale(1.18)}}
+@keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-6vw,7vh) scale(.88)}}
+.grid-fx{
+  position:absolute;inset:0;opacity:.14;
+  background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);
+  background-size:62px 62px;
+  mask-image:radial-gradient(ellipse 92% 68% at 50% 22%,#000 28%,transparent 76%);
+  -webkit-mask-image:radial-gradient(ellipse 92% 68% at 50% 22%,#000 28%,transparent 76%);
+}
 
-  /* ---------- BUG DEMO CARD (signature) ---------- */
-  .ticket{
-    background:var(--paper); color:#132038; border-radius:4px;
-    padding:22px 22px 20px;
-    box-shadow:0 24px 48px -20px rgba(0,0,0,0.55);
-    font-family:var(--body);
-  }
-  .ticket-head{
-    display:flex; justify-content:space-between; align-items:center;
-    font-family:var(--mono); font-size:11px; color:#5E6E8C;
-    padding-bottom:12px; border-bottom:1px solid #DCCFA8; margin-bottom:16px;
-  }
-  .ticket-status{
-    font-family:var(--mono); font-weight:600; font-size:11px; letter-spacing:.05em;
-    padding:3px 9px; border-radius:2px;
-    background:#F4E4C7; color:var(--flag-dim);
-    transition:background .3s ease, color .3s ease;
-  }
-  .ticket-status.fixed{ background:#DCEEE4; color:var(--verified-dim); }
+/* ============================================================
+   SCROLL PROGRESS
+   ============================================================ */
+.scroll-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:500;pointer-events:none}
+.scroll-progress-bar{
+  height:100%;width:0;border-radius:0 3px 3px 0;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  box-shadow:0 0 14px rgba(76,201,240,.6);
+  transition:width .1s linear;
+}
 
-  .broken-ui{ position:relative; padding:6px 0 4px; }
-  .broken-title{
-    font-family:var(--display); font-weight:600; font-size:20px; color:#132038;
-    transform:rotate(-1.5deg) translateX(6px);
-    transition:transform .5s cubic-bezier(.34,1.56,.64,1);
-  }
-  .broken-btn{
-    display:inline-block; margin-top:14px; padding:8px 14px; font-size:13px;
-    font-weight:600; border-radius:2px; border:2px dashed #C9432E;
-    color:#C9432E; background:#FBEAE6;
-    transform:translateY(4px);
-    transition:transform .5s cubic-bezier(.34,1.56,.64,1), background .4s ease, border .4s ease, color .4s ease;
-  }
-  .broken-caption{
-    margin-top:10px; font-size:12.5px; color:#5E6E8C; font-style:italic;
-  }
-  .fixed .broken-title{ transform:none; }
-  .fixed .broken-btn{
-    transform:none; border:2px solid var(--verified-dim); background:#DCEEE4; color:var(--verified-dim);
-  }
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.75rem 1.3rem;border-radius:999px;border:1px solid transparent;
+  font-size:.86rem;font-weight:600;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .22s ease,box-shadow .22s ease,background .22s ease,border-color .22s ease,color .22s ease;
+  white-space:nowrap;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{
+  background:linear-gradient(100deg,var(--accent),var(--accent-2));
+  color:#04121c;box-shadow:0 10px 26px rgba(76,201,240,.26);
+}
+.btn-primary::after{
+  content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+  transform:skewX(-20deg);transition:left .6s ease;
+  pointer-events:none;
+}
+.btn-primary:hover::after{left:150%}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(76,201,240,.38)}
+.btn-outline{background:transparent;border-color:var(--line-2);color:var(--text)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.05);border-color:var(--line);color:var(--text);padding:.58rem 1.05rem;font-size:.8rem}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:.5rem .95rem;font-size:.78rem}
 
-  .repro-btn{
-    margin-top:18px; width:100%; padding:11px; font-family:var(--mono); font-size:12.5px;
-    font-weight:500; letter-spacing:.02em; border-radius:2px; border:1px solid #C9BB8E;
-    background:transparent; color:#3C4D6E; cursor:pointer;
-    transition:background .15s ease, color .15s ease;
-  }
-  .repro-btn:hover{ background:#132038; color:var(--paper); }
-  .repro-btn:disabled{ opacity:.5; cursor:default; }
-  .repro-btn:disabled:hover{ background:transparent; color:#3C4D6E; }
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,12,22,.86);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 0}
+.logo{display:flex;align-items:center;gap:.55rem;font-weight:800;font-size:1rem;letter-spacing:-.02em}
+.logo-mark{
+  width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#04121c;font-size:.78rem;font-weight:800;letter-spacing:-.03em;flex:none;
+}
+.logo small{display:block;font-size:.62rem;font-weight:600;color:var(--dim);letter-spacing:.14em;text-transform:uppercase;line-height:1}
 
-  /* ---------- SECTION SCAFFOLD ---------- */
-  section{ padding:0; }
-  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
-  .reveal.in{ opacity:1; transform:none; }
+.nav-wrap{position:relative;min-width:0}
+.nav{display:flex;gap:1.4rem;align-items:center}
+.nav a{
+  font-size:.82rem;font-weight:500;color:var(--muted);position:relative;
+  transition:color .22s;white-space:nowrap;
+}
+.nav a::after{
+  content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;border-radius:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .28s;
+}
+.nav a:hover,.nav a.active{color:var(--text)}
+.nav a:hover::after,.nav a.active::after{width:100%}
 
-  /* pull quote */
-  .pull{
-    padding:70px 0;
-    border-top:1px solid var(--rule);
+@media(max-width:1080px){
+  .nav-wrap{
+    overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;
+    max-width:56vw;
+    mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 26px),transparent 100%);
+    -webkit-mask-image:linear-gradient(90deg,#000 0,#000 calc(100% - 26px),transparent 100%);
   }
-  .pull p{
-    font-family:var(--display); font-style:italic; font-weight:500;
-    font-size:clamp(22px,3.4vw,34px); line-height:1.4; max-width:26ch; color:var(--paper);
-  }
-  .pull .tag{ display:block; margin-top:22px; font-family:var(--mono); font-size:12px; color:var(--flag); }
+  .nav-wrap::-webkit-scrollbar{display:none}
+}
+@media(max-width:760px){.header-inner .js-resume{display:none}}
+@media(max-width:520px){
+  .nav{gap:.9rem}
+  .nav a{font-size:.74rem}
+  .logo small{display:none}
+  .nav-wrap{max-width:60vw}
+}
 
-  /* about / footnotes */
-  .footnotes{ padding:60px 0 56px; border-top:1px solid var(--rule); }
-  .about-lede{
-    font-size:17px; color:var(--ink-dim); max-width:58ch; margin-top:14px; margin-bottom:36px;
-  }
-  .footnote-grid{
-    display:flex; flex-wrap:wrap; gap:32px 38px; font-size:13.5px; color:var(--ink-dim);
-  }
-  .footnote-grid strong{ color:var(--paper); font-weight:600; display:block; margin-bottom:3px; font-size:14px; }
-  .footnote-grid a{ text-decoration:none; border-bottom:1px solid var(--rule); }
-  .footnote-grid a:hover{ color:var(--flag); border-color:var(--flag); }
+/* environment strip */
+.env-strip{
+  position:relative;z-index:99;
+  background:rgba(255,255,255,.025);
+  border-bottom:1px solid var(--line);
+  font-size:.7rem;color:var(--dim);
+}
+.env-inner{
+  display:flex;flex-wrap:wrap;gap:.4rem 1.4rem;
+  padding:.42rem 0;align-items:center;
+}
+.env-inner b{color:var(--muted);font-weight:600}
+.env-dot{
+  display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--pass);
+  margin-right:.35rem;box-shadow:0 0 0 0 rgba(61,220,151,.6);animation:ping 2.4s infinite;
+}
+@keyframes ping{
+  0%{box-shadow:0 0 0 0 rgba(61,220,151,.6)}
+  70%{box-shadow:0 0 0 7px rgba(61,220,151,0)}
+  100%{box-shadow:0 0 0 0 rgba(61,220,151,0)}
+}
+@media(max-width:640px){
+  .env-hide-sm{display:none}
+}
 
-  /* footer */
-  footer{ padding:32px 0 48px; }
-  .fine-print{ font-size:12px; color:var(--ink-dim); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.section{padding:3.6rem 0;position:relative;z-index:2}
+@media(max-width:600px){.section{padding:2.5rem 0}}
+.eyebrow{
+  font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 .5rem;display:flex;align-items:center;gap:.6rem;
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--accent);opacity:.6}
+.section-title{
+  font-size:clamp(1.35rem,3.4vw,1.95rem);font-weight:700;letter-spacing:-.02em;
+  margin:0 0 .55rem;line-height:1.25;
+}
+.section-sub{color:var(--muted);font-size:.9rem;max-width:68ch;margin:0 0 1.9rem}
+.section-sub strong{color:var(--text);font-weight:600}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center;
+  padding:4rem 0 3rem;
+}
+@media(max-width:940px){.hero{grid-template-columns:1fr;gap:2.4rem;padding:2.8rem 0 2rem}}
+
+.tag-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.tag{
+  display:inline-flex;align-items:center;gap:.4rem;
+  padding:.32rem .8rem;border-radius:999px;font-size:.72rem;font-weight:600;
+  border:1px solid var(--line-2);color:var(--muted);background:rgba(255,255,255,.03);
+}
+.tag.live{color:var(--pass);border-color:rgba(61,220,151,.35);background:rgba(61,220,151,.08)}
+.tag.live .dot{
+  width:6px;height:6px;border-radius:50%;background:var(--pass);animation:ping 2.2s infinite;
+}
+
+.hero h1{
+  font-size:clamp(2.1rem,6vw,3.4rem);
+  line-height:1.06;font-weight:800;letter-spacing:-.03em;margin:0 0 .3rem;
+  background:linear-gradient(100deg,#ffffff 20%,var(--accent) 62%,var(--accent-2));
+  background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-fill-color:transparent;
+  animation:shine 7s linear infinite;
+}
+@keyframes shine{to{background-position:200% center}}
+.hero .role{
+  font-size:clamp(.95rem,2.4vw,1.1rem);font-weight:600;color:var(--accent);
+  margin:0 0 .35rem;letter-spacing:.01em;
+}
+.hero .meta{font-size:.8rem;color:var(--dim);margin:0 0 1.1rem}
+.hero .lead{color:var(--muted);font-size:.94rem;max-width:56ch;margin:0 0 1.6rem}
+.hero .lead strong{color:var(--text);font-weight:600}
+
+.cta-row{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:1.5rem}
+.quick-contact{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;font-size:.78rem;color:var(--dim)}
+.quick-contact a{transition:color .22s}
+.quick-contact a:hover{color:var(--accent)}
+
+.console{
+  background:linear-gradient(165deg,var(--card),var(--card-2));
+  border:1px solid var(--line);border-radius:20px;
+  overflow:hidden;box-shadow:var(--shadow);
+}
+.console-bar{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.65rem .95rem;border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+}
+.console-dots{display:flex;gap:.3rem}
+.console-dots i{width:9px;height:9px;border-radius:50%;display:block}
+.console-dots i:nth-child(1){background:#ff5f57}
+.console-dots i:nth-child(2){background:#ffbd2e}
+.console-dots i:nth-child(3){background:#28c840}
+.console-title{
+  font-family:var(--mono);font-size:.7rem;color:var(--dim);
+  margin-left:.3rem;letter-spacing:.02em;
+}
+.console-body{padding:1rem 1.05rem 1.15rem}
+.kv{display:flex;justify-content:space-between;gap:1rem;font-size:.78rem;padding:.42rem 0;border-bottom:1px dashed rgba(255,255,255,.06)}
+.kv:last-of-type{border-bottom:none}
+.kv span{color:var(--dim)}
+.kv b{font-weight:600;color:var(--text);text-align:right}
+.kv b.pass{color:var(--pass)}
+
+.console-metrics{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.9rem}
+.mini-metric{
+  background:rgba(255,255,255,.03);border:1px solid var(--line);
+  border-radius:12px;padding:.65rem .75rem;
+}
+.mini-metric b{display:block;font-size:1.15rem;font-weight:700;color:var(--accent-2);line-height:1.2}
+.mini-metric span{font-size:.66rem;color:var(--dim);font-weight:500;letter-spacing:.02em}
+
+/* ============================================================
+   METRIC CARDS
+   ============================================================ */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+@media(max-width:900px){.metric-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.metric-grid{grid-template-columns:1fr}}
+
+.metric{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.1rem 1.15rem;position:relative;overflow:hidden;
+  transition:transform .28s,border-color .28s,box-shadow .28s;
+}
+.metric::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:.7;
+}
+.metric:hover{transform:translateY(-4px);border-color:var(--line-2);box-shadow:0 16px 34px rgba(0,0,0,.35)}
+.metric-label{
+  font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 .3rem;
+}
+.metric-value{
+  font-size:1.85rem;font-weight:800;letter-spacing:-.03em;line-height:1.1;
+  color:var(--text);margin:0;display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap;
+}
+.metric-trend{
+  font-size:.68rem;font-weight:700;padding:.16rem .5rem;border-radius:6px;
+  letter-spacing:.02em;white-space:nowrap;
+}
+.trend-up{background:rgba(61,220,151,.13);color:#7ceeb9}
+.trend-down{background:rgba(61,220,151,.13);color:#7ceeb9}
+.trend-flat{background:rgba(143,163,194,.13);color:#b3c3dc}
+.metric-note{font-size:.74rem;color:var(--muted);margin:.35rem 0 0;line-height:1.5}
+
+/* severity chart */
+.chart-card{
+  margin-top:1.2rem;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:1.2rem 1.3rem;
+}
+.chart-head{display:flex;flex-wrap:wrap;gap:.4rem 1rem;justify-content:space-between;align-items:baseline;margin-bottom:1rem}
+.chart-head h3{margin:0;font-size:.92rem;font-weight:600}
+.chart-head span{font-size:.72rem;color:var(--dim)}
+.sev-row{display:grid;grid-template-columns:92px 1fr 46px;align-items:center;gap:.85rem;margin-bottom:.62rem}
+.sev-row:last-child{margin-bottom:0}
+.sev-name{font-size:.76rem;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:.5rem}
+.sev-bullet{
+  width:8px;height:8px;border-radius:50%;flex:none;display:inline-block;
+  box-shadow:0 0 0 2px rgba(255,255,255,.05);
+}
+.sev-track{height:9px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}
+.sev-fill{height:100%;width:0;border-radius:999px;transition:width 1.1s cubic-bezier(.2,.8,.3,1)}
+.sev-val{font-size:.76rem;font-weight:700;color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+
+/* ============================================================
+   STRATEGY
+   ============================================================ */
+.phase-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+@media(max-width:900px){.phase-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.phase-grid{grid-template-columns:1fr}}
+
+.phase{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.15rem;transition:transform .28s,border-color .28s;
+}
+.phase:hover{transform:translateY(-4px);border-color:rgba(76,201,240,.35)}
+.phase-num{
+  font-family:var(--mono);font-size:.68rem;font-weight:700;color:var(--accent);
+  letter-spacing:.1em;margin-bottom:.45rem;display:block;
+}
+.phase h3{margin:0 0 .35rem;font-size:.92rem;font-weight:600}
+.phase p{margin:0;font-size:.79rem;color:var(--muted);line-height:1.6}
+
+/* coverage matrix — colorblind-safe (symbol + colour) */
+.matrix-wrap{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.2rem;overflow-x:auto;
+}
+.matrix-head{display:flex;flex-wrap:wrap;gap:.4rem 1rem;justify-content:space-between;align-items:baseline;margin-bottom:1rem}
+.matrix-head h3{margin:0;font-size:.92rem;font-weight:600}
+.matrix-head span{font-size:.72rem;color:var(--dim)}
+table.matrix{border-collapse:separate;border-spacing:5px;width:100%;min-width:640px}
+table.matrix th{
+  font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--dim);text-align:center;padding:.35rem .3rem;white-space:nowrap;
+}
+table.matrix th:first-child{text-align:left}
+table.matrix td{
+  font-size:.76rem;font-weight:700;text-align:center;padding:.5rem .3rem;
+  border-radius:8px;font-variant-numeric:tabular-nums;
+  transition:transform .2s;
+}
+table.matrix td.mod{
+  text-align:left;background:transparent;color:var(--muted);font-weight:500;
+  padding-left:0;white-space:nowrap;
+}
+table.matrix td[data-v]:hover{transform:scale(1.09)}
+.cov-high{background:rgba(61,220,151,.2);color:#a8f7d6}
+.cov-mid{background:rgba(76,201,240,.18);color:#b8e9fb}
+.cov-low{background:rgba(255,198,92,.18);color:#ffe3a8}
+.cov-risk{background:rgba(255,93,122,.2);color:#ffc2cd}
+
+.matrix-legend{display:flex;flex-wrap:wrap;gap:.5rem 1.1rem;margin-top:.9rem;font-size:.71rem;color:var(--dim)}
+.matrix-legend span{display:inline-flex;align-items:center;gap:.35rem}
+.matrix-legend i{
+  display:inline-block;width:14px;height:14px;border-radius:4px;
+  font-style:normal;
+}
+
+/* ============================================================
+   TEST CASES
+   ============================================================ */
+.toolbar{
+  display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;
+  margin-bottom:1.1rem;
+}
+.filters{display:flex;flex-wrap:wrap;gap:.4rem}
+.filter{
+  padding:.42rem .85rem;border-radius:999px;font-size:.75rem;font-weight:600;
+  border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);
+  cursor:pointer;transition:all .2s;
+}
+.filter:hover{border-color:var(--line-2);color:var(--text)}
+.filter.active{
+  background:linear-gradient(100deg,var(--accent),var(--accent-2));
+  color:#04121c;border-color:transparent;
+}
+.search-box{position:relative;flex:1 1 220px;max-width:320px}
+.search-box input{
+  width:100%;padding:.55rem 2.3rem .55rem 2.1rem;border-radius:999px;
+  background:rgba(255,255,255,.04);border:1px solid var(--line);
+  color:var(--text);font-family:inherit;font-size:.79rem;outline:none;
+  -webkit-appearance:none;
+  appearance:none;
+  transition:border-color .22s,background .22s;
+}
+.search-box input::placeholder{color:var(--dim)}
+.search-box input:focus{border-color:var(--accent);background:rgba(76,201,240,.06)}
+/* hide the browser's native clear button — we have our own */
+.search-box input::-webkit-search-cancel-button,
+.search-box input::-webkit-search-decoration,
+.search-box input::-webkit-search-results-button,
+.search-box input::-webkit-search-results-decoration{
+  -webkit-appearance:none;
+  appearance:none;
+  display:none;
+}
+.search-box input::-ms-clear,
+.search-box input::-ms-reveal{display:none;width:0;height:0}
+.search-box .s-icon{
+  position:absolute;left:.75rem;top:50%;transform:translateY(-50%);
+  width:14px;height:14px;stroke:var(--dim);fill:none;stroke-width:2;pointer-events:none;
+}
+.search-clear{
+  position:absolute;right:.5rem;top:50%;transform:translateY(-50%);
+  width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;
+  background:rgba(255,255,255,.08);color:var(--muted);
+  font-size:.75rem;line-height:1;display:none;place-items:center;
+  transition:background .2s,color .2s;
+}
+.search-clear:hover{background:rgba(255,93,122,.2);color:#ffb0bf}
+.search-clear.show{display:grid}
+
+.tc-scroll{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+table.tc-table{width:100%;border-collapse:collapse}
+table.tc-table thead th{
+  font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--dim);text-align:left;padding:.85rem 1rem;
+  background:rgba(255,255,255,.025);border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+table.tc-table tbody tr{border-bottom:1px solid rgba(255,255,255,.045);transition:background .2s}
+table.tc-table tbody tr:last-child{border-bottom:none}
+table.tc-table tbody tr:hover{background:rgba(76,201,240,.045)}
+table.tc-table td{padding:.85rem 1rem;font-size:.8rem;color:var(--muted);vertical-align:middle}
+table.tc-table td.id{font-family:var(--mono);font-size:.73rem;color:var(--accent);white-space:nowrap}
+table.tc-table td.title{color:var(--text);font-weight:500;min-width:220px}
+
+.badge{
+  display:inline-flex;align-items:center;gap:.32rem;
+  padding:.22rem .6rem;border-radius:6px;font-size:.68rem;font-weight:700;
+  letter-spacing:.04em;white-space:nowrap;
+}
+.badge .bdot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.b-pass{background:rgba(61,220,151,.14);color:#7ceeb9}
+.b-type{background:rgba(160,107,255,.14);color:#c3a3ff}
+.b-p0{background:rgba(255,45,111,.16);color:#ff8fb0}
+.b-p1{background:rgba(255,198,92,.15);color:#ffd98a}
+.b-p2{background:rgba(76,201,240,.14);color:#9ddcf5}
+.b-p3{background:rgba(143,163,194,.14);color:#b3c3dc}
+
+.tc-empty{padding:2.4rem 1rem;text-align:center;color:var(--dim);font-size:.85rem}
+.tc-footer{
+  display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;justify-content:space-between;
+  align-items:center;padding:.8rem 1rem;border-top:1px solid var(--line);
+  background:rgba(255,255,255,.02);font-size:.74rem;color:var(--dim);
+}
+.tc-footer b{color:var(--accent-2);font-weight:700}
+
+@media(max-width:860px){
+  table.tc-table thead{display:none}
+  table.tc-table,table.tc-table tbody,table.tc-table tr,table.tc-table td{display:block;width:100%}
+  table.tc-table tbody tr{
+    border-bottom:1px solid var(--line);padding:.85rem 1rem;
+    display:grid;grid-template-columns:1fr 1fr;gap:.45rem .8rem;
+  }
+  table.tc-table tbody tr:last-child{border-bottom:none}
+  table.tc-table td{padding:0;display:flex;flex-direction:column;gap:.2rem}
+  table.tc-table td::before{
+    content:attr(data-label);font-size:.62rem;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+  }
+  table.tc-table td.title{grid-column:1 / -1;font-size:.86rem}
+  table.tc-table td.id{grid-column:1 / -1}
+}
+
+/* ============================================================
+   DEFECTS
+   ============================================================ */
+.defect-list{display:grid;gap:.75rem}
+details.defect{
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  overflow:hidden;transition:border-color .25s,box-shadow .25s;
+}
+details.defect[open]{border-color:var(--line-2);box-shadow:0 14px 32px rgba(0,0,0,.32)}
+details.defect summary{
+  list-style:none;cursor:pointer;padding:1rem 1.15rem;
+  display:grid;grid-template-columns:auto 1fr auto;gap:.8rem;align-items:center;
+  transition:background .2s;
+}
+details.defect summary::-webkit-details-marker{display:none}
+details.defect summary:hover{background:rgba(255,255,255,.025)}
+.df-id{
+  font-family:var(--mono);font-size:.72rem;color:var(--accent);
+  background:rgba(76,201,240,.09);border:1px solid rgba(76,201,240,.2);
+  padding:.24rem .55rem;border-radius:6px;white-space:nowrap;
+}
+.df-title{font-size:.86rem;font-weight:600;color:var(--text);line-height:1.4}
+.df-meta{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;justify-content:flex-end}
+.df-chev{width:16px;height:16px;stroke:var(--dim);fill:none;stroke-width:2.2;transition:transform .28s;flex:none}
+details.defect[open] .df-chev{transform:rotate(180deg)}
+
+.df-body{padding:0 1.15rem 1.15rem;border-top:1px solid var(--line);animation:dfIn .3s ease}
+@keyframes dfIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.df-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1.6rem;margin-top:1rem}
+@media(max-width:700px){.df-grid{grid-template-columns:1fr}}
+.df-field h4{
+  font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 .28rem;
+}
+.df-field p,.df-field ol{margin:0;font-size:.8rem;color:var(--muted);line-height:1.62}
+.df-field ol{padding-left:1.05rem}
+.df-field ol li{margin-bottom:.22rem}
+.df-field ol li::marker{color:var(--accent);font-weight:600}
+.df-field code{
+  font-family:var(--mono);font-size:.75rem;background:rgba(255,255,255,.055);
+  padding:.1rem .38rem;border-radius:4px;color:var(--accent-2);
+}
+.df-span{grid-column:1 / -1}
+.df-status{
+  display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:700;
+  padding:.24rem .65rem;border-radius:999px;
+  background:rgba(61,220,151,.13);color:#7ceeb9;
+}
+
+@media(max-width:620px){
+  details.defect summary{grid-template-columns:auto 1fr;grid-template-areas:"id chev" "title title" "meta meta";gap:.5rem}
+  .df-id{grid-area:id}
+  .df-title{grid-area:title}
+  .df-meta{grid-area:meta;justify-content:flex-start}
+  .df-chev{grid-area:chev;justify-self:end}
+}
+
+/* ============================================================
+   NOTABLE BUGS
+   ============================================================ */
+.notable-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+@media(max-width:900px){.notable-grid{grid-template-columns:1fr}}
+
+.notable{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.25rem;position:relative;overflow:hidden;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.notable::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--purple),var(--accent));
+  opacity:.75;
+}
+.notable:hover{transform:translateY(-4px);border-color:rgba(160,107,255,.35);box-shadow:0 18px 38px rgba(0,0,0,.35)}
+.notable-tag{
+  display:inline-flex;align-items:center;gap:.35rem;
+  font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--purple);margin-bottom:.6rem;
+}
+.notable h3{margin:0 0 .85rem;font-size:.98rem;font-weight:700;line-height:1.35}
+.notable-block{margin-bottom:.75rem}
+.notable-block:last-child{margin-bottom:0}
+.notable-block h4{
+  font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 .22rem;
+}
+.notable-block p{margin:0;font-size:.79rem;color:var(--muted);line-height:1.6}
+.notable-block p b{color:var(--text);font-weight:600}
+.notable-verdict{
+  margin-top:.9rem;padding:.6rem .75rem;border-radius:10px;
+  background:rgba(61,220,151,.08);border-left:2px solid var(--pass);
+  font-size:.76rem;color:#a8f7d6;line-height:1.55;
+}
+
+/* ============================================================
+   AUTOMATION
+   ============================================================ */
+.auto-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;align-items:start}
+@media(max-width:940px){.auto-grid{grid-template-columns:1fr}}
+
+.code-card{background:#0a1120;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.code-bar{
+  display:flex;align-items:center;gap:.55rem;padding:.6rem .9rem;
+  border-bottom:1px solid var(--line);background:rgba(255,255,255,.025);
+}
+.code-bar .fname{font-family:var(--mono);font-size:.7rem;color:var(--dim)}
+.code-body{
+  padding:1rem 1.1rem;overflow-x:auto;
+  font-family:var(--mono);font-size:.73rem;line-height:1.75;
+}
+.code-body pre{margin:0;white-space:pre}
+.c-cm{color:#5d739a}
+.c-kw{color:#ff8fb0}
+.c-var{color:#ffd98a}
+.c-str{color:#7ceeb9}
+.c-key{color:#9ddcf5}
+.c-num{color:#c3a3ff}
+
+.roi-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.3rem;
+}
+.roi-card h3{margin:0 0 .3rem;font-size:1rem;font-weight:600}
+.roi-card > p{margin:0 0 1.2rem;font-size:.82rem;color:var(--muted)}
+
+.toggle{
+  display:inline-flex;padding:.25rem;border-radius:999px;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);margin-bottom:1.3rem;
+}
+.toggle button{
+  padding:.45rem 1.05rem;border-radius:999px;border:none;background:transparent;
+  color:var(--muted);font-size:.76rem;font-weight:600;cursor:pointer;transition:all .25s;
+}
+.toggle button.on{background:linear-gradient(100deg,var(--accent),var(--accent-2));color:#04121c}
+
+.roi-stats{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:1.1rem}
+@media(max-width:440px){.roi-stats{grid-template-columns:1fr}}
+.roi-stat{
+  background:rgba(255,255,255,.03);border:1px solid var(--line);
+  border-radius:12px;padding:.85rem .95rem;
+}
+.roi-stat b{
+  display:block;font-size:1.5rem;font-weight:800;letter-spacing:-.02em;
+  color:var(--accent-2);line-height:1.15;transition:color .3s;
+}
+.roi-stat span{font-size:.7rem;color:var(--dim);font-weight:500}
+.roi-stat.bad b{color:var(--warn)}
+
+.bar-compare{margin-bottom:.4rem}
+.bar-line{margin-bottom:.85rem}
+.bar-line:last-child{margin-bottom:0}
+.bar-top{display:flex;justify-content:space-between;font-size:.73rem;margin-bottom:.35rem;color:var(--muted)}
+.bar-top b{color:var(--text);font-weight:700}
+.bar-track{height:8px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}
+.bar-fill{height:100%;border-radius:999px;width:0;transition:width .9s cubic-bezier(.2,.8,.3,1)}
+
+.runner{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:1.4rem}
+.runner-head{
+  display:flex;flex-wrap:wrap;gap:.6rem 1rem;justify-content:space-between;align-items:center;
+  padding:1rem 1.15rem;border-bottom:1px solid var(--line);background:rgba(255,255,255,.022);
+}
+.runner-head h3{margin:0;font-size:.94rem;font-weight:600;display:flex;align-items:center;gap:.5rem}
+.runner-head p{margin:.15rem 0 0;font-size:.74rem;color:var(--dim)}
+.runner-body{padding:1.15rem}
+.runner-progress{height:6px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden;margin-bottom:1.1rem}
+.runner-progress div{
+  height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .3s ease;
+}
+.check-list{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.check-list li{
+  display:grid;grid-template-columns:auto 1fr auto;gap:.75rem;align-items:center;
+  padding:.6rem .8rem;border-radius:10px;
+  background:rgba(255,255,255,.025);border:1px solid transparent;
+  font-size:.8rem;opacity:.4;transition:opacity .3s,background .3s,border-color .3s;
+}
+.check-list li.active{opacity:1;border-color:rgba(76,201,240,.35);background:rgba(76,201,240,.07)}
+.check-list li.done{opacity:1;background:rgba(61,220,151,.06);border-color:rgba(61,220,151,.22)}
+.check-icon{
+  width:20px;height:20px;border-radius:6px;display:grid;place-items:center;
+  font-size:.68rem;font-weight:800;flex:none;
+  background:rgba(255,255,255,.07);color:var(--dim);
+}
+.check-list li.active .check-icon{background:rgba(76,201,240,.2);color:var(--accent)}
+.check-list li.done .check-icon{background:rgba(61,220,151,.2);color:var(--pass)}
+.check-name{color:var(--muted);line-height:1.4}
+.check-list li.done .check-name{color:var(--text)}
+.check-time{font-family:var(--mono);font-size:.7rem;color:var(--dim);font-variant-numeric:tabular-nums}
+.check-list li.done .check-time{color:var(--pass)}
+
+.runner-result{
+  margin-top:1.1rem;padding:.95rem 1.1rem;border-radius:12px;
+  display:flex;flex-wrap:wrap;gap:.6rem 1.1rem;align-items:center;justify-content:space-between;
+  background:rgba(61,220,151,.09);border:1px solid rgba(61,220,151,.28);animation:dfIn .4s ease;
+}
+.runner-result .rr-left{display:flex;align-items:center;gap:.65rem}
+.runner-result .rr-icon{
+  width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+  background:rgba(61,220,151,.18);color:var(--pass);font-size:1rem;font-weight:800;flex:none;
+}
+.runner-result h4{margin:0;font-size:.88rem;font-weight:700;color:#9ff5cf}
+.runner-result p{margin:.1rem 0 0;font-size:.72rem;color:var(--muted)}
+.runner-result .rr-right{font-family:var(--mono);font-size:.72rem;color:var(--pass)}
+
+/* ============================================================
+   SPOT THE BUG GAME
+   ============================================================ */
+.game-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:1.6rem;align-items:start}
+@media(max-width:900px){.game-grid{grid-template-columns:1fr}}
+
+.mock{
+  background:#0a1120;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow);
+}
+.mock-head{
+  display:flex;align-items:center;gap:.4rem;padding:.6rem .9rem;
+  border-bottom:1px solid var(--line);background:rgba(255,255,255,.025);
+}
+.mock-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.14)}
+.mock-title{
+  font-family:var(--mono);font-size:.68rem;color:var(--dim);margin-left:.4rem;
+}
+.mock-body{padding:1.2rem;display:grid;gap:1.1rem}
+
+.mock-row{position:relative}
+.mock-row label{
+  display:block;font-size:.68rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:.35rem;
+}
+.mock-input{
+  padding:.62rem .85rem;border-radius:10px;
+  background:rgba(255,255,255,.04);border:1px solid var(--line);
+  font-size:.82rem;color:var(--text);
+}
+.mock-actions{display:flex;gap:.6rem;justify-content:flex-end;margin-top:.4rem}
+.mock-btn{
+  padding:.55rem 1.1rem;border-radius:10px;font-size:.78rem;font-weight:600;
+  border:1px solid transparent;
+}
+.mock-btn-primary{
+  background:linear-gradient(100deg,var(--accent),var(--accent-2));color:#04121c;
+}
+.mock-btn-ghost{background:rgba(255,255,255,.05);border-color:var(--line);color:var(--muted)}
+
+.hotspot{
+  position:absolute;border:2px dashed transparent;border-radius:8px;
+  background:transparent;cursor:pointer;padding:0;
+  transition:border-color .25s,background .25s;
+}
+.hotspot:hover{border-color:rgba(255,93,122,.7);background:rgba(255,93,122,.07)}
+.hotspot.found{
+  border-color:var(--pass);background:rgba(61,220,151,.12);cursor:default;
+}
+.hotspot.found::after{
+  content:"✓";position:absolute;top:-9px;right:-9px;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--pass);color:#04121c;
+  font-size:.7rem;font-weight:900;display:grid;place-items:center;
+}
+
+/* hotspot positions */
+.hs-label{top:-4px;left:-6px;width:52%;height:34px}
+.hs-date{top:-4px;left:-6px;width:56%;height:34px}
+.hs-button{top:-6px;right:-8px;width:46%;height:44px}
+
+.game-panel{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.25rem;
+}
+.game-score{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  margin-bottom:1.1rem;padding-bottom:1rem;border-bottom:1px solid var(--line);
+}
+.game-score b{font-size:1.5rem;font-weight:800;color:var(--accent-2);letter-spacing:-.02em}
+.game-score span{font-size:.74rem;color:var(--dim);display:block}
+.game-dots{display:flex;gap:.4rem}
+.game-dot{
+  width:11px;height:11px;border-radius:50%;
+  background:rgba(255,255,255,.09);border:1px solid var(--line);
+  transition:background .3s,border-color .3s;
+}
+.game-dot.on{background:var(--pass);border-color:var(--pass);box-shadow:0 0 10px rgba(61,220,151,.5)}
+
+.game-hint{font-size:.83rem;color:var(--muted);margin:0 0 1.1rem;line-height:1.65}
+.game-hint b{color:var(--text);font-weight:600}
+
+.bug-reveal{
+  border-radius:12px;padding:.95rem 1.05rem;margin-bottom:.7rem;
+  background:rgba(255,45,111,.06);border:1px solid rgba(255,45,111,.22);
+  animation:dfIn .35s ease;
+}
+.bug-reveal:last-child{margin-bottom:0}
+.bug-reveal .br-head{
+  display:flex;flex-wrap:wrap;gap:.4rem .7rem;align-items:center;margin-bottom:.45rem;
+}
+.bug-reveal .br-id{
+  font-family:var(--mono);font-size:.66rem;color:#ff8fb0;
+  background:rgba(255,45,111,.14);padding:.18rem .5rem;border-radius:5px;
+}
+.bug-reveal h4{margin:0;font-size:.83rem;font-weight:700;color:var(--text)}
+.bug-reveal p{margin:0;font-size:.78rem;color:var(--muted);line-height:1.6}
+.bug-reveal .br-sev{
+  font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  padding:.16rem .48rem;border-radius:5px;
+}
+
+.game-win{
+  border-radius:12px;padding:1rem 1.1rem;text-align:center;
+  background:rgba(61,220,151,.1);border:1px solid rgba(61,220,151,.32);
+  animation:dfIn .4s ease;
+}
+.game-win h4{margin:.3rem 0 .25rem;font-size:.92rem;font-weight:700;color:#9ff5cf}
+.game-win p{margin:0;font-size:.78rem;color:var(--muted)}
+
+/* ============================================================
+   CASE STUDY
+   ============================================================ */
+.case{
+  background:linear-gradient(160deg,var(--card),var(--card-2));
+  border:1px solid var(--line);border-radius:22px;overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.case-head{
+  display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;justify-content:space-between;align-items:center;
+  padding:1.3rem 1.5rem;border-bottom:1px solid var(--line);
+  background:rgba(76,201,240,.05);
+}
+.case-head h3{margin:0;font-size:1.05rem;font-weight:700}
+.case-head span{font-size:.74rem;color:var(--dim)}
+.case-body{padding:1.5rem}
+@media(max-width:600px){.case-body{padding:1.15rem}.case-head{padding:1.1rem}}
+
+.case-steps{display:grid;gap:1.3rem}
+.case-step{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start}
+@media(max-width:520px){.case-step{grid-template-columns:1fr;gap:.5rem}}
+.case-num{
+  width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  background:rgba(76,201,240,.12);border:1px solid rgba(76,201,240,.28);
+  color:var(--accent);font-size:.76rem;font-weight:800;flex:none;
+}
+.case-step h4{margin:0 0 .3rem;font-size:.92rem;font-weight:700}
+.case-step p{margin:0;font-size:.83rem;color:var(--muted);line-height:1.65}
+.case-step p b{color:var(--text);font-weight:600}
+.case-step code{
+  font-family:var(--mono);font-size:.75rem;background:rgba(255,255,255,.055);
+  padding:.1rem .38rem;border-radius:4px;color:var(--accent-2);
+}
+
+.case-result{
+  margin-top:1.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;
+}
+@media(max-width:640px){.case-result{grid-template-columns:1fr}}
+.case-stat{
+  background:rgba(61,220,151,.07);border:1px solid rgba(61,220,151,.24);
+  border-radius:14px;padding:1rem 1.1rem;
+}
+.case-stat b{
+  display:block;font-size:1.55rem;font-weight:800;letter-spacing:-.03em;
+  color:var(--pass);line-height:1.15;
+}
+.case-stat span{font-size:.73rem;color:var(--muted);font-weight:500}
+
+/* ============================================================
+   PHILOSOPHY
+   ============================================================ */
+.philosophy{
+  background:linear-gradient(160deg,var(--card),var(--card-2));
+  border:1px solid var(--line);border-radius:22px;padding:1.8rem;
+  position:relative;overflow:hidden;
+}
+@media(max-width:600px){.philosophy{padding:1.3rem}}
+.philosophy::before{
+  content:"";position:absolute;top:-30%;right:-10%;width:320px;height:320px;
+  border-radius:50%;background:radial-gradient(circle,rgba(124,245,196,.12),transparent 68%);
+  pointer-events:none;
+}
+.philosophy > *{position:relative;z-index:1}
+.philosophy blockquote{
+  margin:0 0 1.4rem;font-size:clamp(.98rem,2.4vw,1.15rem);
+  font-weight:500;line-height:1.65;color:var(--text);
+  border-left:3px solid var(--accent);padding-left:1.1rem;
+}
+.philosophy blockquote strong{color:var(--accent-2);font-weight:700}
+.philosophy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:800px){.philosophy-grid{grid-template-columns:1fr}}
+.phil-item h4{
+  font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 .35rem;
+}
+.phil-item p{margin:0;font-size:.81rem;color:var(--muted);line-height:1.62}
+
+/* ============================================================
+   SIGN-OFF
+   ============================================================ */
+.signoff{
+  background:linear-gradient(160deg,var(--card),var(--card-2));
+  border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);
+}
+.signoff-head{
+  display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;justify-content:space-between;align-items:center;
+  padding:1.2rem 1.4rem;border-bottom:1px solid var(--line);background:rgba(61,220,151,.06);
+}
+.signoff-head h3{margin:0;font-size:1.02rem;font-weight:700;display:flex;align-items:center;gap:.55rem}
+.stamp{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.38rem 1rem;border-radius:8px;font-size:.74rem;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pass);border:2px solid rgba(61,220,151,.5);
+  background:rgba(61,220,151,.08);transform:rotate(-2deg);
+}
+.signoff-body{padding:1.4rem}
+.signoff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.3rem}
+@media(max-width:800px){.signoff-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.signoff-grid{grid-template-columns:1fr}}
+.so-item{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;padding:.8rem .9rem}
+.so-item h4{
+  font-size:.63rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 .3rem;
+}
+.so-item p{margin:0;font-size:.84rem;font-weight:600;color:var(--text)}
+.so-item p.good{color:var(--pass)}
+.so-item p.warn{color:var(--warn)}
+
+.risk-list{list-style:none;margin:0;padding:0;display:grid;gap:.5rem}
+.risk-list li{
+  display:grid;grid-template-columns:auto 1fr;gap:.7rem;align-items:start;
+  font-size:.8rem;color:var(--muted);padding:.55rem .75rem;
+  border-radius:10px;background:rgba(255,255,255,.025);
+}
+.risk-list li .rk{
+  font-family:var(--mono);font-size:.66rem;font-weight:700;padding:.16rem .45rem;
+  border-radius:5px;white-space:nowrap;
+}
+.rk-low{background:rgba(61,220,151,.14);color:#7ceeb9}
+.rk-med{background:rgba(255,198,92,.15);color:#ffd98a}
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.testi-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:820px){.testi-grid{grid-template-columns:1fr}}
+
+.testi{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.5rem;position:relative;overflow:hidden;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.testi::before{
+  content:"“";position:absolute;top:-14px;right:14px;
+  font-size:5.5rem;font-weight:800;color:rgba(76,201,240,.09);
+  line-height:1;pointer-events:none;
+}
+.testi:hover{transform:translateY(-4px);border-color:rgba(76,201,240,.32);box-shadow:0 18px 38px rgba(0,0,0,.34)}
+.testi-text{
+  margin:0 0 1.2rem;font-size:.87rem;color:var(--muted);line-height:1.72;
+  position:relative;z-index:1;
+}
+.testi-text b{color:var(--text);font-weight:600}
+.testi-author{display:flex;align-items:center;gap:.8rem;position:relative;z-index:1}
+.testi-avatar{
+  width:42px;height:42px;border-radius:12px;flex:none;
+  display:grid;place-items:center;font-weight:800;font-size:.85rem;
+  background:linear-gradient(135deg,rgba(76,201,240,.24),rgba(124,245,196,.24));
+  color:var(--accent-2);border:1px solid rgba(76,201,240,.24);
+}
+.testi-name{font-size:.86rem;font-weight:700;color:var(--text);margin:0}
+.testi-role{font-size:.74rem;color:var(--dim);margin:.05rem 0 0}
+
+/* ============================================================
+   EXPERIENCE TIMELINE
+   ============================================================ */
+.timeline{position:relative;padding-left:1.9rem}
+.timeline::before{
+  content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;
+  background:linear-gradient(180deg,var(--accent),var(--accent-2),transparent);opacity:.4;
+}
+.tl-item{position:relative;padding-bottom:1.9rem}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{
+  content:"";position:absolute;left:-1.9rem;top:.42rem;
+  width:14px;height:14px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--accent);
+  box-shadow:0 0 0 4px rgba(76,201,240,.1);
+}
+.tl-item:last-child::before{border-color:var(--accent-2);box-shadow:0 0 0 4px rgba(124,245,196,.12)}
+.tl-head{display:flex;flex-wrap:wrap;gap:.3rem 1rem;align-items:baseline;justify-content:space-between}
+.tl-head h3{margin:0;font-size:1rem;font-weight:700}
+.tl-date{
+  font-size:.72rem;font-weight:600;color:var(--accent-2);
+  background:rgba(124,245,196,.09);padding:.18rem .65rem;border-radius:999px;
+  border:1px solid rgba(124,245,196,.22);white-space:nowrap;
+}
+.tl-company{font-size:.83rem;color:var(--accent);font-weight:600;margin:.15rem 0 0}
+.tl-proj{font-size:.77rem;color:var(--dim);margin:.1rem 0 .8rem;font-style:italic}
+.tl-item ul{margin:0;padding-left:1.05rem;display:grid;gap:.45rem}
+.tl-item li{font-size:.83rem;color:var(--muted);line-height:1.62}
+.tl-item li::marker{color:var(--accent)}
+.tl-item li b{color:var(--text);font-weight:600}
+
+/* ============================================================
+   PROJECT
+   ============================================================ */
+.project-card{
+  background:linear-gradient(160deg,var(--card),var(--card-2));
+  border:1px solid var(--line);border-radius:22px;padding:1.7rem;
+  display:grid;grid-template-columns:auto 1fr;gap:1.3rem;align-items:start;
+  overflow:hidden;transition:transform .4s,border-color .4s,box-shadow .4s;
+}
+.project-card:hover{transform:translateY(-4px);border-color:rgba(124,245,196,.35);box-shadow:0 18px 40px rgba(0,0,0,.4)}
+@media(max-width:640px){.project-card{grid-template-columns:1fr;padding:1.35rem}}
+.project-icon{
+  width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:1.6rem;
+  background:rgba(76,201,240,.1);border:1px solid rgba(76,201,240,.25);
+  animation:bob 4s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(6deg)}}
+.project-card h3{margin:0 0 .1rem;font-size:1.1rem;font-weight:700}
+.project-card .tag{font-size:.75rem;color:var(--accent-2);font-weight:600;margin:0 0 .7rem}
+.project-card p{margin:0;font-size:.88rem;color:var(--muted)}
+.project-card p + p{margin-top:.7rem}
+
+/* ============================================================
+   SKILLS WITH LEVELS
+   ============================================================ */
+.skill-block{margin-bottom:1.7rem}
+.skill-block:last-child{margin-bottom:0}
+.skill-block h3{
+  font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 .85rem;
+}
+.skill-rows{display:grid;gap:.55rem}
+.skill-row{
+  display:grid;grid-template-columns:1fr auto;gap:.6rem 1rem;align-items:center;
+  padding:.5rem .8rem;border-radius:10px;
+  background:rgba(255,255,255,.02);border:1px solid transparent;
+  transition:background .22s,border-color .22s;
+}
+.skill-row:hover{background:rgba(76,201,240,.05);border-color:rgba(76,201,240,.2)}
+.skill-name{font-size:.83rem;font-weight:500;color:var(--text)}
+.skill-name.core{color:var(--accent-2)}
+.skill-level{display:flex;gap:3px;align-items:center}
+.skill-level i{
+  width:7px;height:7px;border-radius:2px;display:block;
+  background:rgba(255,255,255,.09);
+}
+.skill-level i.on{background:var(--accent);box-shadow:0 0 6px rgba(76,201,240,.4)}
+.skill-level.core i.on{background:var(--accent-2);box-shadow:0 0 6px rgba(124,245,196,.4)}
+
+@media(max-width:520px){
+  .skill-row{grid-template-columns:1fr;gap:.35rem}
+}
+
+/* ============================================================
+   CERTIFICATIONS STRIP
+   ============================================================ */
+.cert-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;
+}
+@media(max-width:800px){.cert-strip{grid-template-columns:1fr}}
+
+.cert{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.1rem 1.2rem;display:flex;gap:.9rem;align-items:flex-start;
+  transition:transform .28s,border-color .28s;
+}
+.cert:hover{transform:translateY(-3px);border-color:rgba(255,198,92,.35)}
+.cert-icon{
+  width:38px;height:38px;border-radius:11px;flex:none;
+  display:grid;place-items:center;font-size:1.05rem;
+  background:rgba(255,198,92,.1);border:1px solid rgba(255,198,92,.22);
+}
+.cert h4{margin:0 0 .15rem;font-size:.87rem;font-weight:700}
+.cert p{margin:0;font-size:.75rem;color:var(--muted);line-height:1.5}
+.cert .cert-year{font-size:.68rem;color:var(--dim);font-weight:600;margin-top:.25rem;display:block}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:1.6rem;align-items:start}
+@media(max-width:860px){.contact-grid{grid-template-columns:1fr}}
+
+.contact-main{
+  background:linear-gradient(160deg,var(--card),var(--card-2));
+  border:1px solid var(--line);border-radius:20px;padding:1.9rem;
+  position:relative;overflow:hidden;
+}
+.contact-main::before{
+  content:"";position:absolute;inset:-40%;
+  background:conic-gradient(from 180deg,transparent,rgba(124,245,196,.1),transparent 35%);
+  animation:spin 16s linear infinite;pointer-events:none;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.contact-main > *{position:relative;z-index:1}
+.contact-main h2{margin:.2rem 0 .7rem;font-size:clamp(1.25rem,3.4vw,1.7rem);font-weight:700;letter-spacing:-.02em}
+.contact-main > p{color:var(--muted);font-size:.87rem;margin:0 0 1.5rem;max-width:48ch}
+.contact-links{display:flex;flex-wrap:wrap;gap:.6rem}
+
+.info-panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:1.5rem}
+.info-panel h3{margin:0 0 1rem;font-size:.95rem;font-weight:600}
+.info-row{
+  display:flex;gap:.8rem;align-items:flex-start;
+  padding:.7rem 0;border-bottom:1px dashed rgba(255,255,255,.07);
+}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-row .ir-icon{
+  width:32px;height:32px;border-radius:9px;display:grid;place-items:center;
+  background:rgba(76,201,240,.09);border:1px solid rgba(76,201,240,.18);
+  font-size:.9rem;flex:none;
+}
+.info-row h4{margin:0 0 .1rem;font-size:.74rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.info-row p{margin:0;font-size:.84rem;color:var(--text);font-weight:500;word-break:break-word}
+.info-row a:hover{color:var(--accent)}
+
+.copy-btn{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.22rem .65rem;border-radius:999px;margin-left:.5rem;
+  border:1px solid var(--line);background:rgba(255,255,255,.04);
+  color:var(--dim);cursor:pointer;vertical-align:-2px;
+  transition:all .2s;font-size:.68rem;font-weight:600;
+  font-family:inherit;line-height:1.2;white-space:nowrap;
+}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(76,201,240,.1)}
+.copy-btn.copied{border-color:var(--pass);color:var(--pass);background:rgba(61,220,151,.12)}
+.copy-btn .cb-text{letter-spacing:.02em}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{
+  border-top:1px solid var(--line);padding:2rem 0 3rem;
+  text-align:center;color:var(--dim);font-size:.78rem;
+  position:relative;z-index:2;
+}
+footer p{margin:.25rem 0}
+footer .foot-note{font-size:.7rem;opacity:.75}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+html.js .reveal{opacity:0}
+html.js .reveal.in{
+  opacity:1;
+  animation:revealUp .7s cubic-bezier(.2,.8,.3,1) backwards;
+  animation-delay:var(--d,0s);
+}
+@keyframes revealUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%,20px);
+  z-index:10000;padding:.75rem 1.2rem;border-radius:12px;
+  background:#0f2a1e;color:var(--accent-2);border:1px solid #1f6b4a;
+  font-size:.82rem;font-weight:600;max-width:90vw;
+  opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  html{scroll-behavior:auto}
+}
+
+/* disable heavy gradient spinner on small screens */
+@media(max-width:700px){
+  .contact-main::before{display:none}
+}
+
+/* ============================================================
+   PRINTABLE RÉSUMÉ
+   ============================================================ */
+#print-resume{display:none}
+@media print{
+  @page{size:A4;margin:13mm}
+  html,body{background:#fff !important;color:#111 !important}
+  body > *{display:none !important}
+  #print-resume{
+    display:block !important;
+    font-family:'Poppins',Arial,sans-serif;
+    font-size:10.3pt;line-height:1.45;color:#111;
+  }
+  #print-resume h1{font-size:21pt;margin:0;letter-spacing:-.02em}
+  #print-resume .pr-role{font-size:10.4pt;font-weight:600;color:#0b6bcb;letter-spacing:.09em;text-transform:uppercase;margin:.15rem 0 .3rem}
+  #print-resume .pr-contact{font-size:9pt;color:#444;margin:0 0 .2rem}
+  #print-resume h2{
+    font-size:9.8pt;text-transform:uppercase;letter-spacing:.11em;color:#0b6bcb;
+    border-bottom:1.4px solid #0b6bcb;padding-bottom:2px;margin:12px 0 6px;
+  }
+  #print-resume p{margin:0 0 4px}
+  #print-resume ul{margin:4px 0 0;padding-left:15px}
+  #print-resume li{margin-bottom:3.5px}
+  #print-resume .pr-job{break-inside:avoid;margin-bottom:9px}
+  #print-resume .pr-job-head{display:flex;justify-content:space-between;gap:10px;font-size:10.4pt}
+  #print-resume .pr-job-head span{font-weight:500;color:#555;font-size:9.2pt;white-space:nowrap}
+  #print-resume .pr-proj{font-style:italic;color:#555;font-size:9.2pt}
+  #print-resume .pr-skill-line{margin-bottom:3px}
+  #print-resume .pr-skill-line b{color:#111}
+}
 </style>
 </head>
+
 <body>
 
-<header class="site">
-  <nav>
-    <span class="brand">Ayan Sikdar</span>
-    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navList" aria-label="Toggle menu"><span></span></button>
-    <ul id="navList">
-      <li><a href="#about">About</a></li>
-      <li><a class="nav-resume" href="Ayan_Sikdar_Quality_Engineer_Resume.pdf" download>Download résumé</a></li>
-    </ul>
-  </nav>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="bg-fx" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="grid-fx"></div>
+</div>
+
+<div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-bar" id="spBar"></div></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="logo">
+      <span class="logo-mark">AS</span>
+      <span>Ayan Sikdar<small>Senior Quality Engineer</small></span>
+    </a>
+
+    <div class="nav-wrap">
+      <nav class="nav" id="mainNav" aria-label="Section navigation">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#strategy">Strategy</a>
+        <a href="#testcases">Test Cases</a>
+        <a href="#defects">Defects</a>
+        <a href="#automation">Automation</a>
+        <a href="#signoff">Sign-off</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+
+    <button class="btn btn-ghost js-resume" type="button">⬇ Résumé</button>
+  </div>
 </header>
 
-<main>
-  <section class="hero wrap">
+<!-- ============ ENVIRONMENT STRIP ============ -->
+<div class="env-strip">
+  <div class="wrap env-inner">
+    <span><span class="env-dot"></span><b>Environment:</b> Production</span>
+    <span><b>Build:</b> v4.2.0</span>
+    <span class="env-hide-sm"><b>Last regression:</b> Passed · 6/6 smoke</span>
+    <span class="env-hide-sm"><b>Coverage:</b> 95% functional</span>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero wrap" id="top">
     <div>
-      <span class="kicker">Senior Quality Engineer · <mark class="hl">4+ yrs</mark></span>
-      <h1 class="headline">I notice what's <mark class="hl">broken</mark> before your users do.</h1>
-      <p class="sub">That's the job, on a good day: reading a build like a suspect statement, finding the line that doesn't add up, and not signing off until it does. Try the ticket on the right — it's a small one.</p>
+      <div class="tag-row">
+        <span class="tag live"><span class="dot"></span> Open to opportunities</span>
+        <span class="tag">4+ years QA</span>
+        <span class="tag">Robot Framework</span>
+      </div>
+
+      <h1>Ayan Sikdar</h1>
+      <p class="role">Senior Quality Engineer</p>
+      <p class="meta">Gayeshpur, West Bengal, India · sikdarayan27@gmail.com · +91 7980831107</p>
+
+      <p class="lead">
+        I find the defects your users would have found — before they do.
+        <strong>4+ years</strong> designing risk-based test strategies, building
+        <strong>Robot Framework</strong> automation, validating APIs and backend data,
+        and signing off releases with a clear, honest quality picture.
+      </p>
+
       <div class="cta-row">
-        <a class="btn btn-primary" href="Ayan_Sikdar_Quality_Engineer_Resume.pdf" download>↓ Download résumé</a>
-        <a class="btn btn-ghost" href="mailto:sikdarayan27@gmail.com">Email me</a>
+        <button class="btn btn-primary js-resume" type="button">⬇ Download Résumé (PDF)</button>
+        <a class="btn btn-outline" href="#spotbug">Play “Spot the Bug”</a>
+      </div>
+
+      <div class="quick-contact">
+        <a href="mailto:sikdarayan27@gmail.com">✉️ sikdarayan27@gmail.com</a>
+        <a href="tel:+917980831107">📞 +91 7980831107</a>
+        <a href="https://linkedin.com/in/ayan-sikdar" target="_blank" rel="noopener">in/ayan-sikdar</a>
       </div>
     </div>
 
-    <div class="ticket" id="ticket">
-      <div class="ticket-head">
-        <span>BUG-1147 · visual regression</span>
-        <span class="ticket-status" id="ticketStatus">OPEN</span>
+    <div class="console">
+      <div class="console-bar">
+        <div class="console-dots"><i></i><i></i><i></i></div>
+        <span class="console-title">qa-report — ayan.sikdar</span>
       </div>
-      <div class="broken-ui" id="brokenUi">
-        <div class="broken-title">Welcome back, Ayan</div>
-        <span class="broken-btn">Continue →</span>
-        <p class="broken-caption">Heading is rotated, button is unaligned. Filed by QA (me).</p>
+      <div class="console-body">
+        <div class="kv"><span>Role</span><b>Senior Quality Engineer</b></div>
+        <div class="kv"><span>Experience</span><b>4+ years</b></div>
+        <div class="kv"><span>Primary stack</span><b>Robot Framework · Python · SQL</b></div>
+        <div class="kv"><span>Current project</span><b>Nokia Mediation Revamp</b></div>
+        <div class="kv"><span>Release status</span><b class="pass">PASSED · 0 blockers</b></div>
+
+        <div class="console-metrics">
+          <div class="mini-metric"><b data-count="95" data-suffix="%">0</b><span>Functional coverage</span></div>
+          <div class="mini-metric"><b data-count="70" data-suffix="%">0</b><span>Regression automated</span></div>
+          <div class="mini-metric"><b data-count="200" data-suffix="+">0</b><span>Defects logged</span></div>
+          <div class="mini-metric"><b data-count="25" data-suffix="%">0</b><span>Fewer post-release bugs</span></div>
+        </div>
       </div>
-      <button class="repro-btn" id="reproBtn">▶ run fix and verify</button>
     </div>
   </section>
 
-  <section class="pull wrap reveal">
-    <p>"Most bugs aren't found by clicking harder. They're found by asking what the build is quietly assuming about the user."</p>
-    <span class="tag">// how I approach a new feature</span>
-  </section>
+  <!-- ============================================================
+       DASHBOARD
+       ============================================================ -->
+  <section class="section wrap" id="dashboard">
+    <p class="eyebrow reveal">01 — Quality Dashboard</p>
+    <h2 class="section-title reveal" style="--d:.04s">What quality actually looks like, measured</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      Every number below comes from real release cycles — defect detection, coverage,
+      automation ROI and the reduction in post-release escapes.
+    </p>
 
-  <section id="about" class="footnotes wrap reveal">
-    <span class="kicker">About</span>
-    <p class="about-lede">4+ years testing web applications end to end — functional, regression, and API testing, with the repeatable parts automated in Robot Framework and Python. Full case history and toolkit are in the résumé above.</p>
-    <div class="footnote-grid">
-      <div><strong>Education</strong>BCA, Adamas University — 2021, CGPA 8.05</div>
-      <div><strong>Certification</strong>Python, Udemy</div>
-      <div><strong>Languages</strong>Bengali (native), English (proficient), Hindi (conversational)</div>
-      <div><strong>Based in</strong>Gayeshpur, West Bengal, India</div>
-      <div><strong>Reach me</strong><a href="mailto:sikdarayan27@gmail.com">sikdarayan27@gmail.com</a></div>
+    <div class="metric-grid">
+      <div class="metric reveal" style="--d:.10s">
+        <p class="metric-label">Defects Logged</p>
+        <p class="metric-value"><span data-count="200" data-suffix="+">0</span>
+          <span class="metric-trend trend-up">▲ 40 this quarter</span>
+        </p>
+        <p class="metric-note">With reproduction steps, severity and environment details</p>
+      </div>
+      <div class="metric reveal" style="--d:.16s">
+        <p class="metric-label">Functional Coverage</p>
+        <p class="metric-value"><span data-count="95" data-suffix="%">0</span>
+          <span class="metric-trend trend-up">▲ from 88%</span>
+        </p>
+        <p class="metric-note">Across Dashboard, Lookup and Rejected Data modules</p>
+      </div>
+      <div class="metric reveal" style="--d:.22s">
+        <p class="metric-label">Regression Automated</p>
+        <p class="metric-value"><span data-count="70" data-suffix="%">0</span>
+          <span class="metric-trend trend-up">▲ from 25%</span>
+        </p>
+        <p class="metric-note">2 days of manual effort → 4 hours per release</p>
+      </div>
+      <div class="metric reveal" style="--d:.28s">
+        <p class="metric-label">Post-Release Defects</p>
+        <p class="metric-value">−<span data-count="25" data-suffix="%">0</span>
+          <span class="metric-trend trend-down">▼ improving</span>
+        </p>
+        <p class="metric-note">Fewer escapes after aligning on stream config &amp; data rules</p>
+      </div>
+    </div>
+
+    <div class="chart-card reveal" style="--d:.32s">
+      <div class="chart-head">
+        <h3>Defect severity distribution</h3>
+        <span>Last 200 defects logged in Jira</span>
+      </div>
+
+      <div class="sev-row">
+        <span class="sev-name"><i class="sev-bullet" style="background:#ff2d6f"></i>Critical</span>
+        <div class="sev-track"><div class="sev-fill" data-w="8" style="background:linear-gradient(90deg,#ff2d6f,#ff5d7a)"></div></div>
+        <span class="sev-val">8%</span>
+      </div>
+      <div class="sev-row">
+        <span class="sev-name"><i class="sev-bullet" style="background:#ff8f4d"></i>High</span>
+        <div class="sev-track"><div class="sev-fill" data-w="22" style="background:linear-gradient(90deg,#ff8f4d,#ffab6e)"></div></div>
+        <span class="sev-val">22%</span>
+      </div>
+      <div class="sev-row">
+        <span class="sev-name"><i class="sev-bullet" style="background:#ffc65c"></i>Medium</span>
+        <div class="sev-track"><div class="sev-fill" data-w="41" style="background:linear-gradient(90deg,#ffc65c,#ffd98a)"></div></div>
+        <span class="sev-val">41%</span>
+      </div>
+      <div class="sev-row">
+        <span class="sev-name"><i class="sev-bullet" style="background:#4cc9f0"></i>Low</span>
+        <div class="sev-track"><div class="sev-fill" data-w="29" style="background:linear-gradient(90deg,#4cc9f0,#7cf5c4)"></div></div>
+        <span class="sev-val">29%</span>
+      </div>
     </div>
   </section>
 
-  <footer class="wrap reveal">
-    <div class="fine-print">
-      <span>© 2026 Ayan Sikdar</span>
-      <span>Last verified Aug 2026</span>
+  <!-- ============================================================
+       STRATEGY
+       ============================================================ -->
+  <section class="section wrap" id="strategy">
+    <p class="eyebrow reveal">02 — Test Strategy</p>
+    <h2 class="section-title reveal" style="--d:.04s">How I decide what to test</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      Testing everything equally is how teams run out of time. I start from
+      <strong>risk</strong> — what breaks, how badly, and how likely — then allocate effort where it matters.
+    </p>
+
+    <div class="phase-grid">
+      <div class="phase reveal" style="--d:.10s">
+        <span class="phase-num">PHASE 01</span>
+        <h3>Requirement Analysis</h3>
+        <p>Read specs and user stories, map acceptance criteria, and list ambiguous behaviour before a single test is written.</p>
+      </div>
+      <div class="phase reveal" style="--d:.16s">
+        <span class="phase-num">PHASE 02</span>
+        <h3>Risk-Based Planning</h3>
+        <p>Rank modules by business impact and change frequency. P0 paths get exhaustive coverage; low-risk areas get smoke checks.</p>
+      </div>
+      <div class="phase reveal" style="--d:.22s">
+        <span class="phase-num">PHASE 03</span>
+        <h3>Design &amp; Execution</h3>
+        <p>Positive, negative, boundary and edge cases. Manual for discovery, automated for anything that repeats every release.</p>
+      </div>
+      <div class="phase reveal" style="--d:.28s">
+        <span class="phase-num">PHASE 04</span>
+        <h3>Report &amp; Sign-off</h3>
+        <p>Defects with evidence, coverage evidence, residual risks stated plainly, and a clear go / no-go recommendation.</p>
+      </div>
     </div>
-  </footer>
+
+    <div class="matrix-wrap reveal" style="--d:.32s">
+      <div class="matrix-head">
+        <h3>Test coverage matrix</h3>
+        <span>Module × test type · % coverage achieved</span>
+      </div>
+      <div id="matrixHost"></div>
+      <div class="matrix-legend">
+        <span><i class="cov-high"></i>95%+ strong</span>
+        <span><i class="cov-mid"></i>90–94% good</span>
+        <span><i class="cov-low"></i>85–89% watch</span>
+        <span><i class="cov-risk"></i>&lt;85% gap</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TEST CASES
+       ============================================================ -->
+  <section class="section wrap" id="testcases">
+    <p class="eyebrow reveal">03 — Test Case Library</p>
+    <h2 class="section-title reveal" style="--d:.04s">Sample test cases from live releases</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      A representative slice of the suites I write — mapped to modules, tagged by type and
+      prioritised by risk. Filter or search to explore.
+    </p>
+
+    <div class="toolbar reveal" style="--d:.10s">
+      <div class="filters" id="typeFilters">
+        <button class="filter active" data-filter="all" type="button">All</button>
+        <button class="filter" data-filter="Functional" type="button">Functional</button>
+        <button class="filter" data-filter="Regression" type="button">Regression</button>
+        <button class="filter" data-filter="API" type="button">API</button>
+        <button class="filter" data-filter="UI" type="button">UI</button>
+        <button class="filter" data-filter="Performance" type="button">Performance</button>
+        <button class="filter" data-filter="Smoke" type="button">Smoke</button>
+      </div>
+      <div class="search-box">
+        <svg class="s-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="tcSearch" placeholder="Search by ID, module or title…" aria-label="Search test cases" />
+        <button class="search-clear" id="tcClear" type="button" aria-label="Clear search">✕</button>
+      </div>
+    </div>
+
+    <div class="tc-scroll reveal" style="--d:.14s">
+      <table class="tc-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Module</th>
+            <th>Test Case</th>
+            <th>Type</th>
+            <th>Priority</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tcBody"></tbody>
+      </table>
+      <div class="tc-footer">
+        <span>Showing <b id="tcShown">0</b> of <b id="tcTotal">0</b> test cases</span>
+        <span>Suite: regression · last run passed</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DEFECTS
+       ============================================================ -->
+  <section class="section wrap" id="defects">
+    <p class="eyebrow reveal">04 — Defect Reports</p>
+    <h2 class="section-title reveal" style="--d:.04s">How I write a bug</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      A defect report should let a developer reproduce the problem without asking a single
+      question. Expand any report below to see the full structure.
+    </p>
+
+    <div class="defect-list" id="defectList"></div>
+  </section>
+
+  <!-- ============================================================
+       NOTABLE BUGS
+       ============================================================ -->
+  <section class="section wrap" id="notable">
+    <p class="eyebrow reveal">05 — Notable Finds</p>
+    <h2 class="section-title reveal" style="--d:.04s">Three bugs I'm proud of finding</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      Not the most severe — the most <strong>interesting</strong>. Each one came from asking a
+      question the spec didn't answer, and each would have shipped without a tester who
+      thinks in edge cases.
+    </p>
+
+    <div class="notable-grid">
+      <article class="notable reveal" style="--d:.10s">
+        <span class="notable-tag">⏱ Timing edge case</span>
+        <h3>The dashboard that went blank at midnight</h3>
+        <div class="notable-block">
+          <h4>The symptom</h4>
+          <p>Stream count widget showed <b>0</b> for the first minutes of every new day, then self-corrected on refresh.</p>
+        </div>
+        <div class="notable-block">
+          <h4>How I found it</h4>
+          <p>I was testing timezone handling and manually advanced the system clock past midnight. Nobody had tested the daily rollover because it "only happens once a day."</p>
+        </div>
+        <div class="notable-block">
+          <h4>Why it mattered</h4>
+          <p>Operators lose live visibility during the exact window when shift handovers happen.</p>
+        </div>
+        <p class="notable-verdict">Fixed: aggregation query now coalesces empty buckets, and the UI subscribes to the rollover event.</p>
+      </article>
+
+      <article class="notable reveal" style="--d:.16s">
+        <span class="notable-tag">📊 Boundary exploration</span>
+        <h3>The lookup sync that silently dropped data</h3>
+        <div class="notable-block">
+          <h4>The symptom</h4>
+          <p>Importing a configuration with <b>501+ entries</b> stalled at 500 and silently discarded the rest.</p>
+        </div>
+        <div class="notable-block">
+          <h4>How I found it</h4>
+          <p>Boundary testing — I deliberately tested 499, 500, 501 and 502. The off-by-one was invisible at 499 and 502 only failed when I counted the applied records.</p>
+        </div>
+        <div class="notable-block">
+          <h4>Why it mattered</h4>
+          <p>Large operator configs would be <b>partially applied</b> — a data-correctness bug, not just a UI bug.</p>
+        </div>
+        <p class="notable-verdict">Fixed: sync now uses chunked batch uploads of 100 entries with retry on transient failure.</p>
+      </article>
+
+      <article class="notable reveal" style="--d:.22s">
+        <span class="notable-tag">🔀 State race condition</span>
+        <h3>The filter that forgot itself on tab switch</h3>
+        <div class="notable-block">
+          <h4>The symptom</h4>
+          <p>Workspace filter cleared whenever the user switched tabs and came back.</p>
+        </div>
+        <div class="notable-block">
+          <h4>How I found it</h4>
+          <p>Exploratory session with no script. I kept switching tabs mid-task out of pure habit — and noticed I was re-applying the same filter every time.</p>
+        </div>
+        <div class="notable-block">
+          <h4>Why it mattered</h4>
+          <p>During incident triage, operators switch tabs constantly. Every reset is lost seconds.</p>
+        </div>
+        <p class="notable-verdict">Fixed: filter state moved into the shared session store and rehydrated on tab mount.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       AUTOMATION
+       ============================================================ -->
+  <section class="section wrap" id="automation">
+    <p class="eyebrow reveal">06 — Automation &amp; Execution</p>
+    <h2 class="section-title reveal" style="--d:.04s">Automating what repeats, exploring what doesn't</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      Automation is not about replacing testing — it's about removing the boring 70% so the
+      remaining time goes into exploratory and risk-focused work.
+    </p>
+
+    <div class="auto-grid">
+      <div class="code-card reveal" style="--d:.10s">
+        <div class="code-bar">
+          <div class="console-dots"><i></i><i></i><i></i></div>
+          <span class="fname">mediation_api.robot</span>
+        </div>
+        <div class="code-body">
+<pre><span class="c-cm">*** Settings ***</span>
+<span class="c-key">Library</span>           RequestsLibrary
+<span class="c-key">Library</span>           Collections
+<span class="c-key">Suite Teardown</span>    Close All Connections
+
+<span class="c-cm">*** Variables ***</span>
+<span class="c-var">${BASE_URL}</span>       <span class="c-str">https://mediation-api.internal</span>
+<span class="c-var">${TIMEOUT}</span>        <span class="c-num">10s</span>
+
+<span class="c-cm">*** Test Cases ***</span>
+<span class="c-kw">Validate Lookup Server Payload</span>
+    [Tags]    api    regression    P0
+    <span class="c-kw">Create Session</span>    mediation    <span class="c-var">${BASE_URL}</span>
+    <span class="c-var">${resp}=</span>    <span class="c-kw">GET On Session</span>    mediation
+    ...    <span class="c-str">/lookup-servers</span>    timeout=<span class="c-var">${TIMEOUT}</span>
+    <span class="c-kw">Status Should Be</span>    <span class="c-num">200</span>    <span class="c-var">${resp}</span>
+    <span class="c-var">${data}=</span>    <span class="c-kw">Set Variable</span>    <span class="c-var">${resp.json()}</span>
+    <span class="c-kw">Should Not Be Empty</span>    <span class="c-var">${data}[servers]</span>
+
+<span class="c-kw">Verify Stream Count Matches UI</span>
+    [Tags]    e2e    regression    P0
+    <span class="c-var">${api_count}=</span>    <span class="c-kw">Get Stream Count From API</span>
+    <span class="c-var">${ui_count}=</span>     <span class="c-kw">Get Stream Count From UI</span>
+    <span class="c-kw">Should Be Equal As Integers</span>
+    ...    <span class="c-var">${api_count}</span>    <span class="c-var">${ui_count}</span></pre>
+        </div>
+      </div>
+
+      <div class="roi-card reveal" style="--d:.16s">
+        <h3>Regression effort: manual vs automated</h3>
+        <p>Toggle to compare a full regression pass before and after automation.</p>
+
+        <div class="toggle" id="roiToggle">
+          <button class="on" data-mode="auto" type="button">Automated</button>
+          <button data-mode="manual" type="button">Manual</button>
+        </div>
+
+        <div class="roi-stats">
+          <div class="roi-stat" id="roiTime">
+            <b>4 hours</b>
+            <span>Time per release</span>
+          </div>
+          <div class="roi-stat" id="roiEffort">
+            <b>−70%</b>
+            <span>Manual effort</span>
+          </div>
+        </div>
+
+        <div class="bar-compare">
+          <div class="bar-line">
+            <div class="bar-top"><span>Manual regression</span><b>2 days</b></div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;background:linear-gradient(90deg,#ff5d7a,#ff8f4d)"></div></div>
+          </div>
+          <div class="bar-line">
+            <div class="bar-top"><span>Automated regression</span><b>4 hours</b></div>
+            <div class="bar-track"><div class="bar-fill" style="width:16%;background:linear-gradient(90deg,#4cc9f0,#7cf5c4)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="runner reveal" style="--d:.22s">
+      <div class="runner-head">
+        <div>
+          <h3>⚡ Smoke suite — live demo</h3>
+          <p>Run the 6-check smoke suite exactly as it executes before a release sign-off.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" id="runSmoke" type="button">▶ Run smoke suite</button>
+      </div>
+      <div class="runner-body">
+        <div class="runner-progress"><div id="runnerBar"></div></div>
+        <ul class="check-list" id="checkList"></ul>
+        <div id="runnerResult"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SPOT THE BUG
+       ============================================================ -->
+  <section class="section wrap" id="spotbug">
+    <p class="eyebrow reveal">07 — Interactive</p>
+    <h2 class="section-title reveal" style="--d:.04s">Spot the bug</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      Three defects are planted in this mock account-settings panel. Click on anything that
+      looks wrong — each find reveals the real bug report I'd file.
+    </p>
+
+    <div class="game-grid">
+      <div class="mock reveal" style="--d:.10s">
+        <div class="mock-head">
+          <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
+          <span class="mock-title">account-settings — build v4.2.0</span>
+        </div>
+        <div class="mock-body">
+
+          <div class="mock-row">
+            <label>Emial address</label>
+            <div class="mock-input">ayan.sikdar@example.com</div>
+            <button class="hotspot hs-label" data-bug="0" type="button" aria-label="Inspect the email address field label"></button>
+          </div>
+
+          <div class="mock-row">
+            <label>Last login</label>
+            <div class="mock-input">2024-13-45 · 09:72 AM</div>
+            <button class="hotspot hs-date" data-bug="1" type="button" aria-label="Inspect the last login value"></button>
+          </div>
+
+          <div class="mock-row">
+            <div class="mock-actions">
+              <button class="mock-btn mock-btn-ghost" type="button" tabindex="-1">Cancel</button>
+              <button class="mock-btn mock-btn-primary" type="button" tabindex="-1">Save changes</button>
+            </div>
+            <button class="hotspot hs-button" data-bug="2" type="button" aria-label="Inspect the save button area"></button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="game-panel reveal" style="--d:.16s">
+        <div class="game-score">
+          <div>
+            <span>Bugs found</span>
+            <b><span id="foundCount">0</span> / 3</b>
+          </div>
+          <div class="game-dots" id="gameDots">
+            <span class="game-dot"></span>
+            <span class="game-dot"></span>
+            <span class="game-dot"></span>
+          </div>
+        </div>
+
+        <p class="game-hint" id="gameHint">
+          <b>Hint:</b> look closely at the labels, the date format, and the alignment of the
+          action buttons. Not every defect is a crash.
+        </p>
+
+        <div id="bugReveals"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CASE STUDY
+       ============================================================ -->
+  <section class="section wrap" id="casestudy">
+    <p class="eyebrow reveal">08 — Case Study</p>
+    <h2 class="section-title reveal" style="--d:.04s">65% faster dashboard: how I approached it</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      A deep dive into one measurable win — from the first audit to the confirmed result.
+    </p>
+
+    <div class="case reveal" style="--d:.12s">
+      <div class="case-head">
+        <h3>Nokia Mediation Revamp — Dashboard performance</h3>
+        <span>Duration: 3 sprints · Team: 1 QA, 3 devs</span>
+      </div>
+
+      <div class="case-body">
+        <div class="case-steps">
+
+          <div class="case-step">
+            <span class="case-num">01</span>
+            <div>
+              <h4>The problem</h4>
+              <p>
+                Dashboard, Workspace and Monitored Streams loaded in <b>~20 seconds</b> at peak
+                concurrency. Operators were avoiding the Dashboard entirely during high-traffic
+                windows — which defeated its purpose.
+              </p>
+            </div>
+          </div>
+
+          <div class="case-step">
+            <span class="case-num">02</span>
+            <div>
+              <h4>Investigation</h4>
+              <p>
+                I ran <b>Google Lighthouse</b> audits across all three views and cross-referenced
+                them with backend timing. Three bottlenecks dominated:
+                <code>render-blocking JS</code> in the chart layer,
+                <code>unindexed aggregation queries</code> behind the stream count, and
+                a <code>redundant DOM re-render</code> triggered on every data refresh.
+              </p>
+            </div>
+          </div>
+
+          <div class="case-step">
+            <span class="case-num">03</span>
+            <div>
+              <h4>What I did</h4>
+              <p>
+                I wrote a reproducible performance test that measured <b>time-to-interactive</b>
+                under simulated peak load, then filed each bottleneck as a separate defect with
+                before/after evidence. I paired with the frontend dev on the render fix and
+                validated the query changes with SQL <code>EXPLAIN</code> plans. Each fix was
+                re-measured against the same baseline.
+              </p>
+            </div>
+          </div>
+
+          <div class="case-step">
+            <span class="case-num">04</span>
+            <div>
+              <h4>Verification</h4>
+              <p>
+                Post-fix, I re-ran the same test suite under the same load profile. I also added
+                the performance test to the regression suite so this could never silently
+                regress — the fix is now guarded on every release.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="case-result">
+          <div class="case-stat">
+            <b>20s → 7s</b>
+            <span>Page load time at peak</span>
+          </div>
+          <div class="case-stat">
+            <b>−65%</b>
+            <span>Reduction in load time</span>
+          </div>
+          <div class="case-stat">
+            <b>0 regressions</b>
+            <span>Since the fix shipped</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PHILOSOPHY
+       ============================================================ -->
+  <section class="section wrap" id="philosophy">
+    <p class="eyebrow reveal">09 — How I Work</p>
+    <h2 class="section-title reveal" style="--d:.04s">My testing philosophy</h2>
+
+    <div class="philosophy reveal" style="--d:.10s">
+      <blockquote>
+        A QA engineer's job isn't to <strong>find bugs</strong>. It's to give the team an honest
+        picture of what will break, what won't, and what we don't know yet — so they can make
+        a <strong>confident decision</strong> about shipping.
+      </blockquote>
+
+      <div class="philosophy-grid">
+        <div class="phil-item">
+          <h4>Start from risk</h4>
+          <p>Every test case should trace back to something that could actually hurt a user or the business. Coverage without priorities is just busywork.</p>
+        </div>
+        <div class="phil-item">
+          <h4>Automate the boring, explore the unknown</h4>
+          <p>Scripts handle regression. Humans handle curiosity. I protect time for unscripted exploration because that's where the interesting bugs live.</p>
+        </div>
+        <div class="phil-item">
+          <h4>Write for the developer</h4>
+          <p>A bug report that takes three back-and-forth messages to understand is a bug report that sits unaddressed. Clarity is part of the job.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SIGN-OFF
+       ============================================================ -->
+  <section class="section wrap" id="signoff">
+    <p class="eyebrow reveal">10 — Release Sign-off</p>
+    <h2 class="section-title reveal" style="--d:.04s">The final quality report</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      A sign-off is not "everything passed". It's an honest statement of what was tested,
+      what passed, and what risk remains.
+    </p>
+
+    <div class="signoff reveal" style="--d:.12s">
+      <div class="signoff-head">
+        <h3>📋 Release Quality Report — Nokia Mediation Revamp v4.2.0</h3>
+        <span class="stamp">✓ Approved</span>
+      </div>
+
+      <div class="signoff-body">
+        <div class="signoff-grid">
+          <div class="so-item"><h4>Test Cases Executed</h4><p>148 / 148</p></div>
+          <div class="so-item"><h4>Pass Rate</h4><p class="good">100%</p></div>
+          <div class="so-item"><h4>Open Blockers</h4><p class="good">0</p></div>
+          <div class="so-item"><h4>Functional Coverage</h4><p class="good">95%</p></div>
+          <div class="so-item"><h4>Automated Regression</h4><p class="good">70%</p></div>
+          <div class="so-item"><h4>Page Load (peak)</h4><p class="good">7s · was 20s</p></div>
+        </div>
+
+        <h3 style="font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:0 0 .7rem">
+          Residual risk &amp; notes
+        </h3>
+        <ul class="risk-list">
+          <li>
+            <span class="rk rk-low">LOW</span>
+            <span>Lookup Server sync above 500 entries not covered by automation — manual verification completed, monitoring recommended for the first 48 hours.</span>
+          </li>
+          <li>
+            <span class="rk rk-low">LOW</span>
+            <span>Rejected Data export path tested up to 10k rows. Beyond that limit performance is unverified.</span>
+          </li>
+          <li>
+            <span class="rk rk-med">MED</span>
+            <span>Third-party mediation node version upgrade scheduled next sprint — regression suite must be re-run before the change reaches production.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TESTIMONIALS
+       ============================================================ -->
+  <section class="section wrap" id="testimonials">
+    <p class="eyebrow reveal">11 — Testimonials</p>
+    <h2 class="section-title reveal" style="--d:.04s">What colleagues say</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      QA is a supporting role — the strongest evidence of impact comes from the people
+      I've worked alongside.
+    </p>
+
+    <div class="testi-grid">
+      <article class="testi reveal" style="--d:.10s">
+        <p class="testi-text">
+          “Ayan and I worked on the Nokia Mediation Revamp together for two release cycles.
+          What stands out is how he writes a defect — a developer can pick up his Jira ticket
+          and reproduce it <b>without asking a single question</b>. His Robot Framework suite cut
+          our regression window from two days to a few hours, and the team stopped treating
+          release week as a fire drill.”
+        </p>
+        <div class="testi-author">
+          <span class="testi-avatar" aria-hidden="true">AM</span>
+          <div>
+            <p class="testi-name">Aishwarya M</p>
+            <p class="testi-role">Specialist QA Engineer</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="testi reveal" style="--d:.16s">
+        <p class="testi-text">
+          “I've reviewed a lot of test strategies in my career, and Ayan's are among the few
+          that start from <b>actual risk</b> rather than a checklist. He pushed back on
+          requirements that were ambiguous, found a midnight rollover defect that would have
+          caused a production monitoring blackout, and then <b>automated the guard</b> so it
+          could never regress. That combination of skepticism and engineering is exactly what
+          a senior QA should be.”
+        </p>
+        <div class="testi-author">
+          <span class="testi-avatar" aria-hidden="true">PA</span>
+          <div>
+            <p class="testi-name">Praveen Adhyapak</p>
+            <p class="testi-role">Principal QA</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPERIENCE
+       ============================================================ -->
+  <section class="section wrap" id="experience">
+    <p class="eyebrow reveal">12 — Experience</p>
+    <h2 class="section-title reveal" style="--d:.04s">Where this practice was built</h2>
+
+    <div class="timeline">
+      <div class="tl-item reveal" style="--d:.08s">
+        <div class="tl-head">
+          <h3>Senior Quality Engineer</h3>
+          <span class="tl-date">October 2025 – June 2026</span>
+        </div>
+        <p class="tl-company">LTIMindtree</p>
+        <p class="tl-proj">Project: Nokia Mediation Revamp</p>
+        <ul>
+          <li>Designed and executed <b>100+ end-to-end test cases</b> across Dashboard, System Overview, Lookup Servers, Lookup Data and Rejected Data — achieving <b>95% functional coverage</b> across mediation flows.</li>
+          <li>Logged and tracked <b>200+ defects</b> in Jira with stream configurations, node-level failures and rejected-data patterns — cutting defect resolution time by <b>30%</b>.</li>
+          <li>Reduced page load time by <b>65% (20s → 7s)</b> on Dashboard, Workspace and Monitored Streams using Google Lighthouse audits, removing rendering bottlenecks and monitoring latency at peak traffic.</li>
+          <li>Validated REST API responses in Postman, verified JSON payloads, and cross-checked backend data against the UI for consistency.</li>
+          <li>Executed SQL queries to validate backend records and confirm database-to-UI data integrity.</li>
+          <li>Automated end-to-end stream processing flows with <b>Robot Framework</b>, reducing manual regression effort by <b>70%</b> — from 2 days to 4 hours per release.</li>
+          <li>Reduced post-release defects by <b>25%</b> by aligning with developers and PMs on stream node configuration, Lookup Server updates and Dashboard requirements.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item reveal" style="--d:.14s">
+        <div class="tl-head">
+          <h3>Quality Engineer</h3>
+          <span class="tl-date">August 2021 – September 2025</span>
+        </div>
+        <p class="tl-company">LTIMindtree</p>
+        <p class="tl-proj">Project: CloudRnP</p>
+        <ul>
+          <li>Executed functional and performance testing across web application modules, validating end-to-end workflows and system reliability.</li>
+          <li>Reduced system response time by <b>60% (10s → 4s)</b> by identifying performance bottlenecks and driving targeted optimisations with the development team.</li>
+          <li>Designed detailed test cases mapped directly to business requirements, covering functional and edge-case scenarios.</li>
+          <li>Maintained QA documentation — test cases, scenarios and execution reports — supporting audit readiness and knowledge transfer.</li>
+          <li>Logged and tracked defects in Jira with reproduction steps, severity ratings and environment details, accelerating developer resolution.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COLLEGE PROJECT
+       ============================================================ -->
+  <section class="section wrap" id="project">
+    <p class="eyebrow reveal">13 — College Project</p>
+    <h2 class="section-title reveal" style="--d:.04s">Avyanna — Women Empowerment Website</h2>
+
+    <div class="project-card reveal" style="--d:.10s">
+      <div class="project-icon">⚖️</div>
+      <div>
+        <h3>Avyanna</h3>
+        <p class="tag">Accessibility · Legal literacy · Search</p>
+        <p>
+          A dedicated platform that simplifies access to women's safety laws and legal rights,
+          bridging the gap between complex legal language and everyday users — enabling women
+          to search and explore legislation, protections and legal resources designed for
+          clarity, accessibility and quick reference in critical situations.
+        </p>
+        <p>
+          <b style="color:var(--text)">QA angle:</b> this was my first exposure to accessibility
+          testing. Building it taught me that "it works" and "it's usable" are very different
+          standards — a lesson I've carried into every product I've tested since.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SKILLS WITH LEVELS
+       ============================================================ -->
+  <section class="section wrap" id="skills">
+    <p class="eyebrow reveal">14 — Skills &amp; Tools</p>
+    <h2 class="section-title reveal" style="--d:.04s">The QA toolkit</h2>
+    <p class="section-sub reveal" style="--d:.08s">
+      Levels reflect honest self-assessment: <b style="color:var(--accent-2)">core</b> means I use it daily and can teach it,
+      comfortable means I use it regularly, familiar means I've worked with it and can ramp up fast.
+    </p>
+
+    <div class="skill-block reveal" style="--d:.10s">
+      <h3>Test Types</h3>
+      <div class="skill-rows">
+        <div class="skill-row">
+          <span class="skill-name core">Functional Testing</span>
+          <span class="skill-level core" aria-label="Core: 5 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name core">Regression Testing</span>
+          <span class="skill-level core" aria-label="Core: 5 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name core">Smoke Testing</span>
+          <span class="skill-level core" aria-label="Core: 5 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Exploratory Testing</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Performance Testing</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">UI Testing</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-block reveal" style="--d:.14s">
+      <h3>Automation &amp; Technical</h3>
+      <div class="skill-rows">
+        <div class="skill-row">
+          <span class="skill-name core">Robot Framework</span>
+          <span class="skill-level core" aria-label="Core: 5 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name core">Python</span>
+          <span class="skill-level core" aria-label="Core: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">REST API Testing</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">SQL</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">JSON Validation</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Selenium Webdriver</span>
+          <span class="skill-level" aria-label="Familiar: 3 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-block reveal" style="--d:.18s">
+      <h3>Process &amp; Practice</h3>
+      <div class="skill-rows">
+        <div class="skill-row">
+          <span class="skill-name core">Test Case Design</span>
+          <span class="skill-level core" aria-label="Core: 5 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name core">Risk-Based Testing</span>
+          <span class="skill-level core" aria-label="Core: 5 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Test Case Execution</span>
+          <span class="skill-level" aria-label="Comfortable: 5 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">SDLC / STLC</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Agile / Scrum</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-block reveal" style="--d:.22s">
+      <h3>Tools</h3>
+      <div class="skill-rows">
+        <div class="skill-row">
+          <span class="skill-name core">Jira</span>
+          <span class="skill-level core" aria-label="Core: 5 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name core">Postman</span>
+          <span class="skill-level core" aria-label="Core: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">Google Lighthouse</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+        <div class="skill-row">
+          <span class="skill-name">MS Excel / Word</span>
+          <span class="skill-level" aria-label="Comfortable: 4 out of 5">
+            <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CERTIFICATIONS
+       ============================================================ -->
+  <section class="section wrap" id="certifications">
+    <p class="eyebrow reveal">15 — Credentials</p>
+    <h2 class="section-title reveal" style="--d:.04s">Certifications &amp; education</h2>
+
+    <div class="cert-strip">
+      <div class="cert reveal" style="--d:.10s">
+        <span class="cert-icon">🏅</span>
+        <div>
+          <h4>Python Certification</h4>
+          <p>Certified by Udemy — core Python and automation foundations.</p>
+          <span class="cert-year">Completed</span>
+        </div>
+      </div>
+      <div class="cert reveal" style="--d:.15s">
+        <span class="cert-icon">🎓</span>
+        <div>
+          <h4>Adamas University</h4>
+          <p>Bachelor of Computer Applications (BCA)</p>
+          <span class="cert-year">CGPA 8.05</span>
+        </div>
+      </div>
+      <div class="cert reveal" style="--d:.20s">
+        <span class="cert-icon">🌐</span>
+        <div>
+          <h4>Languages</h4>
+          <p>Bengali — Native · English — Proficient · Hindi — Conversational</p>
+          <span class="cert-year">Working proficiency</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT
+       ============================================================ -->
+  <section class="section wrap" id="contact">
+    <p class="eyebrow reveal">16 — Contact</p>
+    <h2 class="section-title reveal" style="--d:.04s">Let's raise the quality bar</h2>
+
+    <div class="contact-grid" style="margin-top:1.6rem">
+      <div class="contact-main reveal" style="--d:.08s">
+        <h2>Open to QA roles &amp; test strategy work</h2>
+        <p>
+          I'm available for Senior Quality Engineer positions, automation builds and test
+          strategy consulting. I reply quickly — usually before the bug report is filed.
+        </p>
+        <div class="contact-links">
+          <a class="btn btn-primary" href="https://linkedin.com/in/ayan-sikdar" target="_blank" rel="noopener">LinkedIn</a>
+          <button class="btn btn-outline js-resume" type="button">⬇ Résumé (PDF)</button>
+        </div>
+      </div>
+
+      <div class="info-panel reveal" style="--d:.14s">
+        <h3>Direct details</h3>
+
+        <div class="info-row">
+            <div class="ir-icon">✉️</div>
+            <div>
+              <h4>Email
+                <button class="copy-btn" data-copy="sikdarayan27@gmail.com" type="button" aria-label="Copy email address">
+                  <span class="cb-text">Copy</span>
+                </button>
+              </h4>
+              <p><a href="mailto:sikdarayan27@gmail.com">sikdarayan27@gmail.com</a></p>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="ir-icon">📞</div>
+            <div>
+              <h4>Phone
+                <button class="copy-btn" data-copy="+917980831107" type="button" aria-label="Copy phone number">
+                  </span><span class="cb-text">Copy</span>
+                </button>
+              </h4>
+              <p><a href="tel:+917980831107">+91 7980831107</a></p>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="ir-icon">🔗</div>
+            <div>
+              <h4>LinkedIn
+                <button class="copy-btn" data-copy="https://linkedin.com/in/ayan-sikdar" type="button" aria-label="Copy LinkedIn URL">
+                  <span class="cb-text">Copy</span>
+                </button>
+              </h4>
+              <p><a href="https://linkedin.com/in/ayan-sikdar" target="_blank" rel="noopener">linkedin.com/in/ayan-sikdar</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
+<footer>
+  <div class="wrap">
+    <p>© <span id="year">2026</span> Ayan Sikdar — Senior Quality Engineer</p>
+    <p class="foot-note">Résumé opens your browser's print dialog → choose “Save as PDF”.</p>
+  </div>
+</footer>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ============ PRINTABLE RÉSUMÉ ============ -->
+<section id="print-resume">
+  <h1>Ayan Sikdar</h1>
+  <p class="pr-role">Senior Quality Engineer</p>
+  <p class="pr-contact">
+    sikdarayan27@gmail.com &nbsp;|&nbsp; +91 7980831107 &nbsp;|&nbsp;
+    Gayeshpur, West Bengal, India &nbsp;|&nbsp; linkedin.com/in/ayan-sikdar
+  </p>
+
+  <h2>Professional Summary</h2>
+  <p>
+    Senior Quality Engineer with 4+ years of experience in software quality assurance for web
+    applications. Experienced in functional testing, smoke testing, regression testing and API
+    testing. Skilled in automation using Robot Framework and Python with a strong focus on
+    identifying critical defects and improving release stability.
+  </p>
+
+  <h2>Work History</h2>
+
+  <div class="pr-job">
+    <div class="pr-job-head">
+      <strong>Senior Quality Engineer — LTIMindtree</strong>
+      <span>October 2025 – June 2026</span>
+    </div>
+    <p class="pr-proj">Project: Nokia Mediation Revamp</p>
+    <ul>
+      <li>Designed and executed 100+ end-to-end test cases across Dashboard, System Overview, Lookup Servers, Lookup Data and Rejected Data modules, achieving 95% functional coverage and ensuring accurate data processing across mediation flows.</li>
+      <li>Logged and tracked 200+ defects in Jira covering Stream configurations, Node-level failures and Rejected Data patterns, reducing defect resolution time by 30%.</li>
+      <li>Reduced page load time by 65% (20s to 7s) on Dashboard, Workspace and Monitored Streams using Google Lighthouse audits, eliminating rendering bottlenecks and reducing monitoring latency during peak traffic.</li>
+      <li>Validated REST API responses using Postman, verified JSON payloads, and compared backend data with UI to ensure data consistency.</li>
+      <li>Executed SQL queries to validate backend data and ensure consistency between database records and the application UI.</li>
+      <li>Automated end-to-end stream processing flows using Robot Framework, reducing manual regression effort by 70% and cutting validation time from 2 days to 4 hours per release.</li>
+      <li>Reduced post-release defects by 25% by aligning with developers and PMs on Stream node configurations, Lookup Server updates and Dashboard requirements, improving stream processing stability and ensuring uninterrupted mediation operations.</li>
+    </ul>
+  </div>
+
+  <div class="pr-job">
+    <div class="pr-job-head">
+      <strong>Quality Engineer — LTIMindtree</strong>
+      <span>August 2021 – September 2025</span>
+    </div>
+    <p class="pr-proj">Project: CloudRnP</p>
+    <ul>
+      <li>Executed functional and performance testing across web application modules, validating end-to-end workflows and ensuring system reliability.</li>
+      <li>Reduced system response time by 60% (10s to 4s) by identifying performance bottlenecks and driving targeted optimizations with the development team.</li>
+      <li>Designed detailed test cases mapped directly to business requirements, ensuring full coverage of functional and edge case scenarios.</li>
+      <li>Maintained QA documentation including test cases, scenarios, and execution reports, supporting audit readiness and team knowledge transfer.</li>
+      <li>Logged and tracked defects in Jira with reproduction steps, severity ratings, and environment details, accelerating developer resolution.</li>
+    </ul>
+  </div>
+
+  <h2>Core Skills</h2>
+  <p class="pr-skill-line"><b>Testing:</b> Functional Testing, Smoke Testing, Regression Testing, Exploratory Testing, Performance Testing, UI Testing, Test Case Design, Test Case Execution</p>
+  <p class="pr-skill-line"><b>Automation &amp; Technical:</b> Robot Framework, Python, Selenium Webdriver, REST API Testing, JSON Validation, SQL</p>
+  <p class="pr-skill-line"><b>Process &amp; Tools:</b> Jira, Postman, Google Lighthouse, MS Excel, MS Word, SDLC, STLC, Agile/Scrum</p>
+
+  <h2>College Project</h2>
+  <p><b>Avyanna — Women Empowerment Website:</b> A dedicated platform that simplifies access to women's safety laws and legal rights, bridging the gap between complex legal language and everyday users — enabling women to search and explore legislation, protections, and legal resources designed for clarity, accessibility, and quick reference in critical situations.</p>
+
+  <h2>Education</h2>
+  <p><b>Adamas University</b> — Bachelor of Computer Applications (BCA), CGPA: 8.05</p>
+
+  <h2>Certification</h2>
+  <p>Python Certified by Udemy</p>
+
+  <h2>Languages</h2>
+  <p>Bengali — Native &nbsp;|&nbsp; English — Proficient &nbsp;|&nbsp; Hindi — Conversational</p>
+</section>
+
 <script>
-  const navToggle = document.getElementById('navToggle');
-  const navList = document.getElementById('navList');
-  navToggle.addEventListener('click', () => {
-    const open = navList.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    navList.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
-  }));
+(function () {
+  "use strict";
 
-  const reproBtn = document.getElementById('reproBtn');
-  const brokenUi = document.getElementById('brokenUi');
-  const ticketStatus = document.getElementById('ticketStatus');
-  reproBtn.addEventListener('click', () => {
-    brokenUi.classList.add('fixed');
-    ticketStatus.textContent = 'VERIFIED';
-    ticketStatus.classList.add('fixed');
-    reproBtn.textContent = '✓ fix verified';
-    reproBtn.disabled = true;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $  = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ============================================================
+     TOAST
+     ============================================================ */
+  var toastEl = document.getElementById('toast');
+  var toastTimer;
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2400);
+  }
+
+  /* ============================================================
+     RÉSUMÉ — working print-to-PDF
+     ============================================================ */
+  $$('.js-resume').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.print();
+    });
   });
 
-  const revealEls = document.querySelectorAll('.reveal');
-  const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); revealObs.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  revealEls.forEach(el => revealObs.observe(el));
+  /* ============================================================
+     COPY TO CLIPBOARD
+     ============================================================ */
+  $$('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text    = btn.getAttribute('data-copy');
+      var textEl  = btn.querySelector('.cb-text');
+
+      var done = function () {
+        btn.classList.add('copied');
+        if (textEl) textEl.textContent = 'Copied';
+        showToast('Copied to clipboard');
+        setTimeout(function () {
+          btn.classList.remove('copied');
+          if (textEl) textEl.textContent = 'Copy';
+        }, 1600);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done).catch(function () {
+          fallbackCopy(text, done);
+        });
+      } else {
+        fallbackCopy(text, done);
+      }
+    });
+  });
+
+  function fallbackCopy(text, cb) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); cb(); } catch (e) { showToast('Copy failed — please copy manually'); }
+    document.body.removeChild(ta);
+  }
+
+  /* ============================================================
+     SCROLL PROGRESS
+     ============================================================ */
+  var spBar = document.getElementById('spBar');
+  var ticking = false;
+  function updateScrollBar() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    spBar.style.width = (h > 0 ? Math.min(100, Math.max(0, (window.scrollY / h) * 100)) : 0) + '%';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { window.requestAnimationFrame(updateScrollBar); ticking = true; }
+  }, { passive: true });
+  updateScrollBar();
+
+  /* ============================================================
+     ACTIVE NAV LINK
+     ============================================================ */
+  var navLinks = $$('#mainNav a');
+  var sections = navLinks
+    .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window && sections.length) {
+    var navIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          navLinks.forEach(function (a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function (s) { navIO.observe(s); });
+  }
+
+  /* ============================================================
+     REVEAL ON SCROLL
+     ============================================================ */
+  var revealEls = $$('.reveal');
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ============================================================
+     COUNT-UP
+     ============================================================ */
+  function countUp(el) {
+    var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+    var suffix = el.getAttribute('data-suffix') || '';
+    if (reduceMotion) { el.textContent = target + suffix; return; }
+
+    var duration = 1200, start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) window.requestAnimationFrame(step);
+    }
+    window.requestAnimationFrame(step);
+  }
+
+  var counters = $$('[data-count]');
+  if ('IntersectionObserver' in window) {
+    var cIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { countUp(entry.target); cIO.unobserve(entry.target); }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(function (el) { cIO.observe(el); });
+  } else {
+    counters.forEach(countUp);
+  }
+
+  /* ============================================================
+     SEVERITY BARS
+     ============================================================ */
+  var sevFills = $$('.sev-fill');
+  if ('IntersectionObserver' in window) {
+    var sIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          setTimeout(function () { el.style.width = el.getAttribute('data-w') + '%'; }, 120);
+          sIO.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    sevFills.forEach(function (el) { sIO.observe(el); });
+  } else {
+    sevFills.forEach(function (el) { el.style.width = el.getAttribute('data-w') + '%'; });
+  }
+
+  /* ============================================================
+     COVERAGE MATRIX (numbers only — icons removed)
+     ============================================================ */
+  var COVERAGE = {
+    types: ['Functional', 'Regression', 'API', 'UI', 'Performance'],
+    modules: [
+      { name: 'Dashboard',         values: [98, 95, 90, 92, 96] },
+      { name: 'System Overview',   values: [96, 94, 88, 90, 92] },
+      { name: 'Lookup Servers',    values: [97, 92, 98, 85, 88] },
+      { name: 'Lookup Data',       values: [95, 90, 94, 86, 84] },
+      { name: 'Rejected Data',     values: [94, 96, 88, 82, 80] },
+      { name: 'Workspace',         values: [92, 88, 85, 95, 90] },
+      { name: 'Monitored Streams', values: [93, 91, 87, 89, 93] }
+    ]
+  };
+
+  function covClass(v) {
+    if (v >= 95) return 'cov-high';
+    if (v >= 90) return 'cov-mid';
+    if (v >= 85) return 'cov-low';
+    return 'cov-risk';
+  }
+
+  (function renderMatrix() {
+    var host = document.getElementById('matrixHost');
+    if (!host) return;
+
+    var html = '<table class="matrix"><thead><tr><th>Module</th>';
+    COVERAGE.types.forEach(function (t) { html += '<th>' + t + '</th>'; });
+    html += '</tr></thead><tbody>';
+
+    COVERAGE.modules.forEach(function (m) {
+      html += '<tr><td class="mod">' + m.name + '</td>';
+      m.values.forEach(function (v, i) {
+        html += '<td class="' + covClass(v) + '" data-v="' + v + '" title="' +
+                m.name + ' · ' + COVERAGE.types[i] + ': ' + v + '%">' + v + '</td>';
+      });
+      html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    host.innerHTML = html;
+  })();
+
+  /* ============================================================
+     TEST CASES
+     ============================================================ */
+  var TEST_CASES = [
+    { id:'TC-001', module:'Dashboard',          title:'Verify dashboard widgets render with live stream counts', type:'Functional',  priority:'P0', status:'Pass' },
+    { id:'TC-002', module:'System Overview',    title:'Verify node-level health indicators update on state change', type:'Functional', priority:'P0', status:'Pass' },
+    { id:'TC-003', module:'Lookup Servers',     title:'Validate GET /lookup-servers returns 200 with correct schema', type:'API', priority:'P0', status:'Pass' },
+    { id:'TC-004', module:'Lookup Data',        title:'Verify lookup table refresh reflects the latest configuration', type:'Functional', priority:'P1', status:'Pass' },
+    { id:'TC-005', module:'Rejected Data',      title:'Verify rejected records captured with correct reason codes', type:'Regression', priority:'P0', status:'Pass' },
+    { id:'TC-006', module:'Dashboard',          title:'Verify page load stays under 7s at peak concurrency', type:'Performance', priority:'P1', status:'Pass' },
+    { id:'TC-007', module:'Workspace',          title:'Verify responsive layout at 768px and 375px breakpoints', type:'UI', priority:'P2', status:'Pass' },
+    { id:'TC-008', module:'Monitored Streams',  title:'Verify stream filter persists across navigation', type:'Functional', priority:'P1', status:'Pass' },
+    { id:'TC-009', module:'Login',              title:'Verify valid credentials grant dashboard access', type:'Smoke', priority:'P0', status:'Pass' },
+    { id:'TC-010', module:'Lookup Servers',     title:'Validate JSON payload matches database records', type:'API', priority:'P1', status:'Pass' },
+    { id:'TC-011', module:'Rejected Data',      title:'Explore edge cases in rejection reason mapping', type:'Functional', priority:'P2', status:'Pass' },
+    { id:'TC-012', module:'Dashboard',          title:'Verify no regression in stream count aggregation', type:'Regression', priority:'P0', status:'Pass' },
+    { id:'TC-013', module:'System Overview',    title:'Verify empty-state messaging when no streams are active', type:'UI', priority:'P2', status:'Pass' },
+    { id:'TC-014', module:'Lookup Data',        title:'Validate SQL record count matches UI row count', type:'API', priority:'P1', status:'Pass' },
+    { id:'TC-015', module:'Monitored Streams',  title:'Verify latency alert triggers above threshold', type:'Regression', priority:'P1', status:'Pass' }
+  ];
+
+  var tcBody    = document.getElementById('tcBody');
+  var tcShown   = document.getElementById('tcShown');
+  var tcTotal   = document.getElementById('tcTotal');
+  var tcSearch  = document.getElementById('tcSearch');
+  var tcClear   = document.getElementById('tcClear');
+  var activeType = 'all';
+
+  var PRIORITY_CLASS = { P0:'b-p0', P1:'b-p1', P2:'b-p2', P3:'b-p3' };
+
+  function renderTestCases() {
+    var q = (tcSearch.value || '').trim().toLowerCase();
+
+    var rows = TEST_CASES.filter(function (tc) {
+      var typeOk = activeType === 'all' || tc.type === activeType;
+      var hay = (tc.id + ' ' + tc.module + ' ' + tc.title + ' ' + tc.type + ' ' + tc.priority).toLowerCase();
+      return typeOk && (!q || hay.indexOf(q) !== -1);
+    });
+
+    if (!rows.length) {
+      /* QA-style empty state — reads like a defect report */
+      tcBody.innerHTML =
+        '<tr><td colspan="6" class="tc-empty">' +
+          '<div style="font-size:1.4rem;line-height:1;margin-bottom:.5rem">🔍</div>' +
+          '<div style="font-weight:700;color:#e9eefb;margin-bottom:.35rem">DEF-000 · Test case not found</div>' +
+          '<div style="font-size:.8rem;line-height:1.6">' +
+            '<b style="color:#8fa3c2">Expected:</b> at least 1 test case matching the current filter.<br>' +
+            '<b style="color:#8fa3c2">Actual:</b> 0 results returned from the suite.<br>' +
+          '</div>' +
+        '</td></tr>';
+    } else {
+      tcBody.innerHTML = rows.map(function (tc) {
+        return '<tr>' +
+          '<td class="id" data-label="ID">' + tc.id + '</td>' +
+          '<td data-label="Module">' + tc.module + '</td>' +
+          '<td class="title" data-label="Test Case">' + tc.title + '</td>' +
+          '<td data-label="Type"><span class="badge b-type">' + tc.type + '</span></td>' +
+          '<td data-label="Priority"><span class="badge ' + (PRIORITY_CLASS[tc.priority] || 'b-p3') + '">' + tc.priority + '</span></td>' +
+          '<td data-label="Status"><span class="badge b-pass"><i class="bdot"></i>' + tc.status + '</span></td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    tcShown.textContent = rows.length;
+    tcTotal.textContent = TEST_CASES.length;
+    tcClear.classList.toggle('show', q.length > 0);
+  }
+
+  $$('#typeFilters .filter').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      $$('#typeFilters .filter').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeType = btn.getAttribute('data-filter');
+      renderTestCases();
+    });
+  });
+
+  tcSearch.addEventListener('input', renderTestCases);
+  tcClear.addEventListener('click', function () {
+    tcSearch.value = '';
+    tcSearch.focus();
+    renderTestCases();
+  });
+  renderTestCases();
+
+  /* ============================================================
+     DEFECT REPORTS
+     ============================================================ */
+  var DEFECTS = [
+    {
+      id:'DEF-2041',
+      title:'Dashboard stream count shows 0 after midnight rollover',
+      severity:'Critical', sevClass:'b-p0', module:'Dashboard', status:'Fixed & verified',
+      env:'QA · Chrome 122 · Build v4.1.3',
+      steps:[
+        'Open Dashboard with an active mediation stream running.',
+        'Change system clock past 00:00 (or wait for the daily rollover job).',
+        'Observe the Stream Count widget without refreshing the page.'
+      ],
+      expected:'Stream count continues to display the live number of active streams.',
+      actual:'Widget resets to 0 and does not recover until a full page reload. Aggregation job returns a null bucket for the new day.',
+      impact:'Operators lose visibility of active streams for the first minutes of every day — monitoring blind spot during peak handover.',
+      fix:'Aggregation query now coalesces the empty bucket to the previous day’s count and the UI subscribes to the rollover event.'
+    },
+    {
+      id:'DEF-1988',
+      title:'Lookup server sync fails when configuration exceeds 500 entries',
+      severity:'High', sevClass:'b-p1', module:'Lookup Servers', status:'Fixed & verified',
+      env:'QA · Firefox 121 · Build v4.0.9',
+      steps:[
+        'Import a lookup configuration containing 501+ entries.',
+        'Trigger a manual sync from the Lookup Servers page.',
+        'Watch the sync status indicator.'
+      ],
+      expected:'All entries sync and the status shows Completed with the correct record count.',
+      actual:'Sync stalls at 500 entries and returns a 413 payload-too-large error. Remaining entries are silently dropped.',
+      impact:'Large operator configurations would be partially applied in production — a data-correctness risk affecting mediation output.',
+      fix:'Sync switched to chunked batch uploads of 100 entries with retry on transient failure.'
+    },
+    {
+      id:'DEF-1876',
+      title:'Rejected data export truncates at exactly 1000 rows',
+      severity:'Medium', sevClass:'b-p2', module:'Rejected Data', status:'Fixed & verified',
+      env:'QA · Chrome 121 · Build v3.9.2',
+      steps:[
+        'Navigate to Rejected Data with more than 1000 records present.',
+        'Click Export to CSV.',
+        'Open the downloaded file and count rows.'
+      ],
+      expected:'Export contains every record matching the current filter.',
+      actual:'Export stops at exactly 1000 rows with no warning to the user.',
+      impact:'Analysts investigating rejection spikes would work from incomplete data and could draw wrong conclusions.',
+      fix:'Pagination removed from the export query; export now streams the full result set and displays the final row count.'
+    },
+    {
+      id:'DEF-1755',
+      title:'Workspace filter resets when switching between tabs',
+      severity:'High', sevClass:'b-p1', module:'Workspace', status:'Fixed & verified',
+      env:'QA · Safari 17 · Build v3.8.0',
+      steps:[
+        'Open Workspace and apply a stream filter.',
+        'Switch to the System Overview tab.',
+        'Switch back to the Workspace tab.'
+      ],
+      expected:'Previously applied filter is preserved for the session.',
+      actual:'Filter clears and the full unfiltered list loads, forcing the user to reapply it.',
+      impact:'Repetitive rework for operators who switch tabs constantly — a direct productivity drain during incident triage.',
+      fix:'Filter state moved into the shared session store and rehydrated on tab mount.'
+    },
+    {
+      id:'DEF-1621',
+      title:'Chart tooltip overlaps legend on screens below 400px',
+      severity:'Low', sevClass:'b-p3', module:'Monitored Streams', status:'Fixed & verified',
+      env:'QA · Chrome Mobile 375px · Build v3.7.1',
+      steps:[
+        'Open Monitored Streams on a 375px-wide viewport.',
+        'Tap any point on the latency chart.',
+        'Observe the tooltip and legend positions.'
+      ],
+      expected:'Tooltip appears above the chart without covering the legend.',
+      actual:'Tooltip renders on top of the legend, hiding the series labels.',
+      impact:'Cosmetic only — data remains readable, but it looks unpolished on mobile.',
+      fix:'Tooltip repositioned to flip vertically when viewport width is under 400px.'
+    }
+  ];
+
+  (function renderDefects() {
+    var host = document.getElementById('defectList');
+    if (!host) return;
+
+    host.innerHTML = DEFECTS.map(function (d, i) {
+      return '' +
+      '<details class="defect reveal" style="--d:' + (i * 0.05) + 's"' + (i === 0 ? ' open' : '') + '>' +
+        '<summary>' +
+          '<span class="df-id">' + d.id + '</span>' +
+          '<span class="df-title">' + d.title + '</span>' +
+          '<span class="df-meta">' +
+            '<span class="badge ' + d.sevClass + '">' + d.severity + '</span>' +
+            '<span class="badge b-type">' + d.module + '</span>' +
+            '<svg class="df-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>' +
+          '</span>' +
+        '</summary>' +
+        '<div class="df-body">' +
+          '<div class="df-grid">' +
+            '<div class="df-field">' +
+              '<h4>Status</h4>' +
+              '<span class="df-status">✓ ' + d.status + '</span>' +
+            '</div>' +
+            '<div class="df-field">' +
+              '<h4>Environment</h4>' +
+              '<p><code>' + d.env + '</code></p>' +
+            '</div>' +
+            '<div class="df-field df-span">' +
+              '<h4>Steps to reproduce</h4>' +
+              '<ol>' + d.steps.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ol>' +
+            '</div>' +
+            '<div class="df-field"><h4>Expected result</h4><p>' + d.expected + '</p></div>' +
+            '<div class="df-field"><h4>Actual result</h4><p>' + d.actual + '</p></div>' +
+            '<div class="df-field df-span"><h4>Business impact</h4><p>' + d.impact + '</p></div>' +
+            '<div class="df-field df-span"><h4>Resolution</h4><p>' + d.fix + '</p></div>' +
+          '</div>' +
+        '</div>' +
+      '</details>';
+    }).join('');
+
+    var fresh = $$('#defectList .reveal');
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      var dIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { entry.target.classList.add('in'); dIO.unobserve(entry.target); }
+        });
+      }, { threshold: 0.08 });
+      fresh.forEach(function (el) { dIO.observe(el); });
+    } else {
+      fresh.forEach(function (el) { el.classList.add('in'); });
+    }
+  })();
+
+  /* ============================================================
+     AUTOMATION ROI TOGGLE
+     ============================================================ */
+  var roiToggle = document.getElementById('roiToggle');
+  var roiTime   = document.getElementById('roiTime');
+  var roiEffort = document.getElementById('roiEffort');
+
+  if (roiToggle) {
+    var ROI = {
+      auto:   { time:'4 hours', effort:'−70%', effortBad:false },
+      manual: { time:'2 days',  effort:'baseline', effortBad:true }
+    };
+
+    roiToggle.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-mode]');
+      if (!btn) return;
+
+      $$('button', roiToggle).forEach(function (b) { b.classList.remove('on'); });
+      btn.classList.add('on');
+
+      var d = ROI[btn.getAttribute('data-mode')];
+      roiTime.querySelector('b').textContent = d.time;
+      roiEffort.querySelector('b').textContent = d.effort;
+      roiEffort.classList.toggle('bad', d.effortBad);
+      roiTime.classList.toggle('bad', d.effortBad);
+    });
+  }
+
+  /* ============================================================
+     SMOKE SUITE RUNNER
+     ============================================================ */
+  var SMOKE_CHECKS = [
+    'Application loads without console errors',
+    'Login flow succeeds with valid credentials',
+    'Dashboard stream count matches API response',
+    'Lookup server endpoint returns 200 + valid schema',
+    'Rejected data records render with reason codes',
+    'Page load stays under 7s at peak concurrency'
+  ];
+
+  var checkList    = document.getElementById('checkList');
+  var runnerBar    = document.getElementById('runnerBar');
+  var runnerResult = document.getElementById('runnerResult');
+  var runSmokeBtn  = document.getElementById('runSmoke');
+  var running      = false;
+
+  function buildCheckList() {
+    checkList.innerHTML = SMOKE_CHECKS.map(function (name, i) {
+      return '<li data-i="' + i + '">' +
+        '<span class="check-icon">' + (i + 1) + '</span>' +
+        '<span class="check-name">' + name + '</span>' +
+        '<span class="check-time">—</span>' +
+      '</li>';
+    }).join('');
+  }
+  buildCheckList();
+
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  async function runSmoke() {
+    if (running) return;
+    running = true;
+
+    runSmokeBtn.disabled = true;
+    runSmokeBtn.textContent = '⏳ Running…';
+    runnerResult.innerHTML = '';
+    runnerBar.style.width = '0%';
+    buildCheckList();
+
+    var items = $$('#checkList li');
+    var totalMs = 0;
+
+    for (var i = 0; i < items.length; i++) {
+      var li = items[i];
+      li.classList.add('active');
+      await sleep(reduceMotion ? 80 : 400 + Math.random() * 360);
+
+      var ms = 180 + Math.round(Math.random() * 520);
+      totalMs += ms;
+
+      li.classList.remove('active');
+      li.classList.add('done');
+      li.querySelector('.check-icon').textContent = '✓';
+      li.querySelector('.check-time').textContent = ms + ' ms';
+
+      runnerBar.style.width = Math.round(((i + 1) / items.length) * 100) + '%';
+    }
+
+    await sleep(320);
+
+    runnerResult.innerHTML =
+      '<div class="runner-result">' +
+        '<div class="rr-left">' +
+          '<span class="rr-icon">✓</span>' +
+          '<div>' +
+            '<h4>Smoke suite passed — 6/6 checks</h4>' +
+            '<p>No blocking defects found. Build v4.2.0 is ready for release sign-off.</p>' +
+          '</div>' +
+        '</div>' +
+        '<span class="rr-right">total ' + (totalMs / 1000).toFixed(1) + 's</span>' +
+      '</div>';
+
+    runSmokeBtn.disabled = false;
+    runSmokeBtn.textContent = '↻ Run again';
+    running = false;
+  }
+
+  if (runSmokeBtn) runSmokeBtn.addEventListener('click', runSmoke);
+
+  /* ============================================================
+     SPOT THE BUG GAME
+     ============================================================ */
+  var BUGS = [
+    {
+      id: 'DEF-2201',
+      title: '“Email” misspelled as “Emial” on account settings',
+      severity: 'Low',
+      sevClass: 'b-p3',
+      detail: 'Field label reads “Emial address”. Cosmetic but visible on a high-traffic page — erodes trust in the product’s polish and confuses screen-reader users, who hear the misspelling read aloud.'
+    },
+    {
+      id: 'DEF-2202',
+      title: 'Invalid date shown for Last login (2024-13-45 · 09:72)',
+      severity: 'High',
+      sevClass: 'b-p1',
+      detail: 'Month 13 and hour 72 do not exist. This isn’t a rendering bug — it means the backend date formatter is silently accepting garbage input. Auditors and support agents rely on this field for investigations.'
+    },
+    {
+      id: 'DEF-2203',
+      title: 'Primary “Save changes” button overflows the panel on narrow viewports',
+      severity: 'Medium',
+      sevClass: 'b-p2',
+      detail: 'The primary action is clipped at widths under 380px, making it partially untappable on small phones. A clipped primary CTA is a conversion and accessibility problem, not just a visual one.'
+    }
+  ];
+
+  var foundBugs  = {};
+  var gameDots   = $$('#gameDots .game-dot');
+  var foundCount = document.getElementById('foundCount');
+  var bugReveals = document.getElementById('bugReveals');
+  var gameHint   = document.getElementById('gameHint');
+
+  $$('.hotspot').forEach(function (hs) {
+    hs.addEventListener('click', function () {
+      var idx = parseInt(hs.getAttribute('data-bug'), 10);
+      if (foundBugs[idx]) return;
+
+      foundBugs[idx] = true;
+      hs.classList.add('found');
+      hs.disabled = true;
+
+      var bug = BUGS[idx];
+
+      var el = document.createElement('div');
+      el.className = 'bug-reveal';
+      el.innerHTML =
+        '<div class="br-head">' +
+          '<span class="br-id">' + bug.id + '</span>' +
+          '<span class="br-sev badge ' + bug.sevClass + '">' + bug.severity + '</span>' +
+        '</div>' +
+        '<h4>' + bug.title + '</h4>' +
+        '<p>' + bug.detail + '</p>';
+      bugReveals.appendChild(el);
+
+      var count = Object.keys(foundBugs).length;
+      foundCount.textContent = count;
+
+      if (gameDots[idx]) gameDots[idx].classList.add('on');
+
+      if (count === 3) {
+        gameHint.style.display = 'none';
+        var win = document.createElement('div');
+        win.className = 'game-win';
+        win.innerHTML =
+          '<div style="font-size:1.6rem;line-height:1">🎉</div>' +
+          '<h4>All 3 bugs found. Nice eye.</h4>' +
+          '<p>That’s the job — noticing what everyone else walks past.</p>';
+        bugReveals.appendChild(win);
+      } else {
+        gameHint.innerHTML = '<b>Good catch.</b> ' + (3 - count) + ' more to find — keep looking.';
+      }
+    });
+  });
+
+  /* ============================================================
+     ESCAPE KEY closes any open details
+     ============================================================ */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      $$('details.defect[open]').forEach(function (d) { d.open = false; });
+    }
+  });
+
+  /* ============================================================
+     MAILTO FALLBACK — copy the address if mail client can't open
+     ============================================================ */
+  function isInIframe() {
+    try { return window.self !== window.top; } catch (e) { return true; }
+  }
+
+  $$('a[href^="mailto:"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var email = a.getAttribute('href').replace(/^mailto:/, '').split('?')[0];
+
+      // If we're inside an iframe, mailto rarely fires — intercept and copy.
+      if (isInIframe()) {
+        e.preventDefault();
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(email).then(function () {
+            showToast('Email copied — ' + email);
+          }).catch(function () {
+            showToast('Email: ' + email);
+          });
+        } else {
+          showToast('Email: ' + email);
+        }
+        return;
+      }
+
+      // Real browser: let mailto fire, but copy as a backup and confirm.
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email).catch(function () {});
+      }
+      showToast('Opening email client… address copied as backup');
+    });
+  });
+
+})();
 </script>
-
 </body>
 </html>
