@@ -100,7 +100,22 @@ button{font-family:inherit}
 .btn-sm{padding:.45rem .9rem;font-size:.74rem}
 
 /* HEADER */
-.site-header{position:sticky;top:1rem;z-index:100;width:min(1280px,100% - 1.5rem);margin:1rem auto 0;background:linear-gradient(180deg, rgba(15,23,42,.48), rgba(10,18,32,.32));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.10);border-radius:22px;box-shadow:0 10px 32px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.08);transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:background .2s ease, backdrop-filter .2s ease}
+.site-header{
+  position:sticky;top:1rem;z-index:100;
+  width:min(1280px,100% - 1.5rem);
+  margin:1rem auto 0;
+  background:linear-gradient(180deg, rgba(12,20,36,.86), rgba(9,15,28,.82));
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:22px;
+  box-shadow:
+    0 10px 32px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  transform:translateZ(0);
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
 .site-header.scrolling{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(10,16,30,.94)}
 .header-inner{display:flex;align-items:center;gap:.75rem;padding:.55rem .85rem .5rem}
 .logo{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:.9rem;letter-spacing:-.02em;flex:none;cursor:pointer}
@@ -1422,23 +1437,6 @@ html.js .reveal.in{opacity:1;animation:revealUp .6s cubic-bezier(.2,.8,.3,1) bac
     requestAnimationFrame(function () { updateProgress(); tick(); });
   })();
 
-  /* HEADER BLUR GUARD */
-  (function headerBlurGuard() {
-    var header = document.getElementById('siteHeader');
-    if (!header) return;
-    var scrollTimer, ticking = false;
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        window.requestAnimationFrame(function () {
-          header.classList.add('scrolling');
-          ticking = false;
-        });
-        ticking = true;
-      }
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(function () { header.classList.remove('scrolling'); }, 120);
-    }, { passive: true });
-  })();
 
   /* TOAST */
   var toastEl = document.getElementById('toast');
